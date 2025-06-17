@@ -9,27 +9,14 @@ type FinancialCheckResultDetailsProps = {
 };
 
 const formatValue = (val: number) => {
-  const isPercent = val >= 0 && val <= 100;
-  return isPercent
-    ? `${Math.round(val)}%`
-    : `Rp ${val.toLocaleString("id-ID")}`;
+  return `Rp ${val.toLocaleString("id-ID")}`;
 };
 
 const FinancialCheckResultDetails = ({
   results,
 }: FinancialCheckResultDetailsProps) => {
-  const percentHiddenCategories = [
-    "Aset terhadap Hutang",
-    "Cashflow",
-    "Kekayaan Bersih",
-  ];
-
-  const ideal = results.filter(
-    (item) => item.category_level === "Ideal"
-  );
-  const notIdeal = results.filter(
-    (item) => item.category_level !== "Ideal"
-  );
+  const ideal = results.filter((item) => item.category_level === "Ideal");
+  const notIdeal = results.filter((item) => item.category_level !== "Ideal");
 
   const renderItem = (
     item: IndicatorDetail,
@@ -52,12 +39,10 @@ const FinancialCheckResultDetails = ({
           <span className="font-semibold">{formatValue(item.value)}</span>
         </div>
 
-        {!percentHiddenCategories.includes(item.category) && (
+        {item.category_level !== "Ideal" && (
           <div>
             Persentase:{" "}
-            <span className="font-semibold">
-              {Math.round(item.percent)}%
-            </span>
+            <span className="font-semibold">{Math.round(item.percent)}%</span>
           </div>
         )}
 

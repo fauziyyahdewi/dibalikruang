@@ -17,25 +17,29 @@ const Result = ({ data }: ResultProps) => {
     if (score === 100)
       return {
         text: "Kondisi keuanganmu saat ini sehat.",
-        color: "bg-yellow-600",
+        color: "bg-green-600",
+        hex: "#16a34a", // Tailwind green-600
       };
     if (score >= 90)
       return {
-        text: "Kondisi keuanganmu cukup sehat. Namun masih ada bagian yang perlu dioptimalkan. ",
-        color: "bg-yellow-500",
+        text: "Kondisi keuanganmu cukup sehat. Namun masih ada bagian yang perlu dioptimalkan.",
+        color: "bg-green-500",
+        hex: "#22c55e", // Tailwind green-500
       };
     if (score >= 41)
       return {
         text: "Kondisi keuanganmu belum optimal. Masih ada yang perlu diperbaiki.",
-        color: "bg-yellow-600",
+        color: "bg-orange-600",
+        hex: "#ea580c", // Tailwind orange-600
       };
     return {
       text: "Kondisi keuanganmu tidak sehat.",
-      color: "bg-yellow-600",
+      color: "bg-red-600",
+      hex: "#dc2626", // Tailwind red-600
     };
   };
 
-  const { text, color } = getStatus(score);
+  const { text, color, hex } = getStatus(score);
 
   return (
     <div className="mt-6 bg-white rounded-md shadow-md p-6 flex flex-col items-strecth">
@@ -46,7 +50,7 @@ const Result = ({ data }: ResultProps) => {
             series={[
               {
                 data: [
-                  { id: 0, value: score, color: "#d97706" },
+                  { id: 0, value: score, color: `${hex}` },
                   { id: 1, value: 100 - score, color: "#e5e7eb" },
                 ],
                 innerRadius: 50,

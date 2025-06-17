@@ -105,7 +105,7 @@ const FinancialCheckForm = ({ onSubmitComplete }: FinancialCheckFormProps) => {
       Swal.fire({
         icon: "success",
         title: "Berhasil!",
-        text: "Fincheck berhasil disimpan.",
+        text: "Hasil Financial Check Up Anda Telah Keluar",
       });
 
       onSubmitComplete(calculated);
