@@ -6,26 +6,16 @@ export const navLinks = [
   },
   {
     id: 2,
-    label: 'About',
-    url: '/'
-  },
-  {
-    id: 3,
     label: 'Advisors',
     url: '/'
   },
   {
-    id: 4,
+    id: 3,
     label: 'Testimonial',
     url: '/Testimonial'
   },
   {
-    id: 5,
-    label: 'Blog',
-    url: '/'
-  },
-  {
-    id: 6,
+    id: 4,
     label: 'Contact',
     url: '/'
   },

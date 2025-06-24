@@ -49,6 +49,9 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
       if (isLoggedIn && nextUrl.pathname.startsWith("/login")) {
         return Response.redirect(new URL("/", nextUrl));
       }
+      if (isLoggedIn && nextUrl.pathname.startsWith("/signup")) {
+        return Response.redirect(new URL("/", nextUrl));
+      }
 
       return true;
     },

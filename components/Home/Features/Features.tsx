@@ -1,53 +1,53 @@
-import React from "react";
 import {
-  FaBook,
-  FaCog,
-  FaDesktop,
-  FaHeadset,
-  FaInfinity,
-  FaLaptop,
-  FaLayerGroup,
-  FaMobileAlt,
-  FaShieldAlt,
-} from "react-icons/fa";
+  BrainCircuit,
+  ChartColumn,
+  Clock,
+  FileDigit,
+  Goal,
+  Lightbulb,
+  Scale,
+  ShieldUser,
+  TableOfContents,
+} from "lucide-react";
+import React from "react";
 
 const Features = () => {
   const features = [
     {
-      icon: <FaLayerGroup className="text-red-500" />,
-      text: "50+ Unique Design Block",
+      icon: <ChartColumn className="text-red-500" />,
+      text: "Analisis Keuangan Otomatis",
     },
     {
-      icon: <FaLaptop className="text-blue-500" />,
-      text: "Multiple Layouts",
+      icon: <BrainCircuit className="text-blue-500" />,
+      text: "Evaluasi 6 Aspek Keuangan Pribadi",
     },
     {
-      icon: <FaMobileAlt className="text-yellow-500" />,
-      text: "Mobile First Design",
+      icon: <FileDigit className="text-yellow-500" />,
+      text: "Skor Kesehatan Finansial Otomatis",
     },
     {
-      icon: <FaDesktop className="text-purple-500" />,
-      text: "Fully Responsive",
+      icon: <Scale className="text-purple-500" />,
+      text: "Perbandingan dengan Kondisi Ideal",
     },
     {
-      icon: <FaCog className="text-teal-500" />,
-      text: "Customizable",
+      icon: <TableOfContents className="text-teal-500" />,
+      text: "Laporan Ringkas & Informatif",
     },
     {
-      icon: <FaHeadset className="text-green-500" />,
-      text: "Humanly Supported",
+      icon: <Clock className="text-green-500" />,
+      text: "Proses Cepat, Hasil Instan",
     },
     {
-      icon: <FaInfinity className="text-pink-500" />,
-      text: "Lifetime Updates",
+      icon: <Lightbulb className="text-pink-500" />,
+      text: "Tingkatkan Literasi Keuanganmu",
     },
     {
-      icon: <FaBook className="text-indigo-500" />,
-      text: "Rich Documentation",
+      icon: <ShieldUser className="text-indigo-500" />,
+      text: "Privasi dan Kerahasiaan Dijaga",
     },
     {
-      icon: <FaShieldAlt className="text-orange-500" />,
-      text: "Enhanced Security",
+      icon: <Goal className="text-orange-500" />,
+      text: "Rekomendasi Tindakan Nyata",
     },
   ];
 

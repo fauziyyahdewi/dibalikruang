@@ -13,10 +13,11 @@ const Esential = () => {
       <div className="mt-20 grid w-[90%] mx-auto grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-12">
         <div data-aos="fade-up" data-aos-anchor-placement="top-center">
           <EsentialCard
-            image="/images/dibalikruang-logo.png"
-            title="Dibalik Ruang"
-            description="Dibalik Ruang adalah sebuah aplikasi yang dapat membantu Anda untuk menentukan ruang yang tepat untuk pergi ke rumah tanpa menghabiskan waktu dan banyak uang. Dengan menggunakan fitur ini, Anda dapat memilih ruang yang tepat dengan lebih sedikit biaya dan kemudahan."
-            linkText="Start Earning"
+            image="/images/esensial-1.png"
+            title="Tahu Posisi Keuangan Saat Ini"
+            description="Membantu memahami jumlah aset, utang, dan arus kas agar bisa mengambil keputusan keuangan yang tepat."
+            linkText="Ketahui Lebih Lanjut"
+            link="https://www.investopedia.com/articles/investing/061916/what-best-measure-companys-financial-health.asp"
           />
         </div>
         <div
@@ -25,10 +26,11 @@ const Esential = () => {
           data-aos-delay="100"
         >
           <EsentialCard
-            image="/images/dibalikruang-logo.png"
-            title="Dibalik Ruang"
-            description="Dibalik Ruang adalah sebuah aplikasi yang dapat membantu Anda untuk menentukan ruang yang tepat untuk pergi ke rumah tanpa menghabiskan waktu dan banyak uang. Dengan menggunakan fitur ini, Anda dapat memilih ruang yang tepat dengan lebih sedikit biaya dan kemudahan."
-            linkText="Start Earning"
+            image="/images/esensial-2.png"
+            title="Deteksi Masalah Finansial"
+            description="Mengungkap potensi masalah seperti utang berlebih atau pengeluaran yang tidak terkendali sejak dini."
+            linkText="Ketahui Lebih Lanjut"
+            link="https://allworthfinancial.com/articles/5-key-reasons-net-worth-important"
           />
         </div>
         <div
@@ -37,10 +39,11 @@ const Esential = () => {
           data-aos-delay="200"
         >
           <EsentialCard
-            image="/images/dibalikruang-logo.png"
-            title="Dibalik Ruang"
-            description="Dibalik Ruang adalah sebuah aplikasi yang dapat membantu Anda untuk menentukan ruang yang tepat untuk pergi ke rumah tanpa menghabiskan waktu dan banyak uang. Dengan menggunakan fitur ini, Anda dapat memilih ruang yang tepat dengan lebih sedikit biaya dan kemudahan."
-            linkText="Start Earning"
+            image="/images/esensial-3.png"
+            title="Rencanakan Tujuan"
+            description="Memberi gambaran yang jelas untuk menyusun rencana keuangan jangka pendek maupun panjang."
+            linkText="Ketahui Lebih Lanjut"
+            link="https://www.ameripriseadvisors.com/team/insight-financial-advisors/insights/financial-health-check"
           />
         </div>
         <div
@@ -49,10 +52,11 @@ const Esential = () => {
           data-aos-delay="300"
         >
           <EsentialCard
-            image="/images/dibalikruang-logo.png"
-            title="Dibalik Ruang"
-            description="Dibalik Ruang adalah sebuah aplikasi yang dapat membantu Anda untuk menentukan ruang yang tepat untuk pergi ke rumah tanpa menghabiskan waktu dan banyak uang. Dengan menggunakan fitur ini, Anda dapat memilih ruang yang tepat dengan lebih sedikit biaya dan kemudahan."
-            linkText="Start Earning"
+            image="/images/esensial-4.png"
+            title="Bangun Kebiasaan Sehat"
+            description="Mendorong disiplin dalam mencatat, mengatur, dan mengevaluasi keuangan secara berkala."
+            linkText="Ketahui Lebih Lanjut"
+            link="https://www.investopedia.com/articles/personal-finance/100516/setting-financial-goals"
           />
         </div>
       </div>

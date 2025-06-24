@@ -10,14 +10,14 @@ const Hero = () => {
           {/* Text Content */}
           <div>
             {/* Top box */}
-            <div className="w-fit py-1.5 px-2 md:px-5 rounded-full shadow-md flex items-center space-x-3 bg-white">
+            {/* <div className="w-fit py-1.5 px-2 md:px-5 rounded-full shadow-md flex items-center space-x-3 bg-white">
               <div className="px-3 py-1 md:px-5 md:py-1 rounded-full bg-brand-orange md:text-base sm:text-sm text-xs text-white">
                 News
               </div>
               <p className="text-xs sm:text-sm">
                 We have update out term & condition policy
               </p>
-            </div>
+            </div> */}
 
             {/* Heading */}
             <h1

@@ -30,10 +30,10 @@ const Footer = () => {
               />
             </div>
             {/* Description */}
-            <p className="mt-4 text-sm font-medium leading-[2rem] w-[80%] text-gray-600">
-              Lorem ipsum dolor sit amet, consectetur adipisicing elit. Odio
-              molestias odit quos iste.
-            </p>
+            <div className="mt-4 text-sm font-medium leading-[1.5rem] w-[80%] text-gray-600">
+              <p>/Learn, Earn, Return/</p>
+              <p>Connecting Your First Insurance Media</p>
+            </div>
           </div>
           {/* About us Link */}
           <div>
@@ -94,17 +94,17 @@ const Footer = () => {
           </p>
           <div className="flex items-center space-x-4 mt-4 md:mt-0">
             <span>Social Media:</span>
-            <Link href="#" className="text-gray-500 hover:text-gray-800">
+            <Link href="https://www.instagram.com/dibalik.ruang/" className="text-gray-500 hover:text-gray-800">
               <FaInstagram />
+            </Link>
+            <Link href="https://tr.ee/_j7jkf4OpR" className="text-gray-500 hover:text-gray-800">
+              <FaTiktok />
             </Link>
             <Link href="#" className="text-gray-500 hover:text-gray-800">
               <FaFacebook />
             </Link>
             <Link href="#" className="text-gray-500 hover:text-gray-800">
               <FaXTwitter />
-            </Link>
-            <Link href="#" className="text-gray-500 hover:text-gray-800">
-              <FaTiktok />
             </Link>
           </div>
         </div>

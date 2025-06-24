@@ -6,9 +6,10 @@ type Props = {
   name: string;
   image: string;
   job: string;
+  testimonial: string;
 };
 
-const ReviewCard = ({ name, image, job }: Props) => {
+const ReviewCard = ({ name, image, job, testimonial }: Props) => {
   return (
     <div className="w-full lg:w-[90%] relative mx-auto p-6 bg-white shadow-lg rounded-lg">
       <div>
@@ -18,14 +19,7 @@ const ReviewCard = ({ name, image, job }: Props) => {
         {/* Content */}
         <div className="col-span-3 order-2 lg:order-1">
           <p className="mt-8 text-sm sm:text-base md:text-lg font-medium leading-[1.5rem] sm:leading-[1.8rem]">
-            Lorem ipsum dolor sit, amet consectetur adipisicing elit. Hic
-            ducimus doloribus dolor minus dolore nostrum perferendis
-            reprehenderit aperiam laudantium blanditiis? Sed in ab iure
-            accusantium ducimus labore inventore rem at. Lorem ipsum dolor sit
-            amet, consectetur adipisicing elit. Perferendis odit sit
-            voluptatibus illum repudiandae totam tenetur necessitatibus eos
-            nobis tempore! Obcaecati deserunt sed eligendi dicta iure quidem
-            illo hic sapiente.
+            {testimonial}
           </p>
           <div className="flex items-center mt-6">
             <FaStar className="text-yellow-600 w-6 h-6" />

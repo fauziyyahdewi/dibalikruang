@@ -10,8 +10,8 @@ import Swal from "sweetalert2";
 import { FormDataLogin } from "@/types/form-values";
 import { loginCredentials } from "@/lib/actions";
 import { useForm } from "react-hook-form";
-import { signIn } from "@/auth";
 import { useRouter } from "next/navigation";
+import { getSession } from "next-auth/react";
 
 const LoginForm = () => {
   const router = useRouter();
@@ -19,53 +19,82 @@ const LoginForm = () => {
   const {
     register,
     handleSubmit,
-    setError,
     formState: { errors },
   } = useForm<FormDataLogin>();
+
+  // const onSubmit = async (data: FormDataLogin) => {
+  //   const result = await loginCredentials(data);
+
+  //   if (result?.error) {
+  //     for (const key in result.error) {
+  //       setError(key as keyof FormDataLogin, {
+  //         type: "manual",
+  //         message: key as string,
+  //       });
+  //     }
+  //     return;
+  //   }
+
+  //   if (result?.error) {
+  //     Swal.fire({
+  //       icon: "error",
+  //       title: "Oops...",
+  //       text: "Gagal Login",
+  //     });
+  //     return;
+  //   }
+
+  //   // ✅ Setelah berhasil login (tanpa error), sign in ke NextAuth
+  //   const signInResult = await signIn("credentials", {
+  //     redirect: false,
+  //     email: data.email,
+  //     password: data.password,
+  //   });
+
+  //   if (signInResult?.ok) {
+  //     // Optional: redirect ke halaman utama atau dashboard
+  //     Swal.fire({
+  //       icon: "success",
+  //       title: "Login Berhasil",
+  //       text: "Selamat datang kembali!",
+  //     }).then(() => router.push("/"));
+  //   } else {
+  //     Swal.fire({
+  //       icon: "error",
+  //       title: "Oops...",
+  //       text: "Login gagal, cek kembali email dan password kamu.",
+  //     });
+  //   }
+  // };
 
   const onSubmit = async (data: FormDataLogin) => {
     const result = await loginCredentials(data);
 
     if (result?.error) {
-      for (const key in result.error) {
-        setError(key as keyof FormDataLogin, {
-          type: "manual",
-          message: key as string,
-        });
-      }
-      return;
-    }
-
-    if (result?.error) {
       Swal.fire({
         icon: "error",
         title: "Oops...",
-        text: "Gagal Login",
+        text: "Email atau password salah",
       });
       return;
     }
 
-    // ✅ Setelah berhasil login (tanpa error), sign in ke NextAuth
-    const signInResult = await signIn("credentials", {
-      redirect: false,
-      email: data.email,
-      password: data.password,
+    // Setelah berhasil login
+    Swal.fire({
+      title: "Tunggu Sebentar...",
+      allowOutsideClick: false,
+      didOpen: () => Swal.showLoading(),
     });
 
-    if (signInResult?.ok) {
-      // Optional: redirect ke halaman utama atau dashboard
-      Swal.fire({
-        icon: "success",
-        title: "Login Berhasil",
-        text: "Selamat datang kembali!",
-      }).then(() => router.push("/"));
-    } else {
-      Swal.fire({
-        icon: "error",
-        title: "Oops...",
-        text: "Login gagal, cek kembali email dan password kamu.",
-      });
-    }
+    // Tunggu session update
+    const interval = setInterval(async () => {
+      const session = await getSession(); // dari next-auth/react
+      if (session) {
+        clearInterval(interval);
+        Swal.close();
+        router.push("/");
+      }
+    }, 500);
   };
 
   return (
