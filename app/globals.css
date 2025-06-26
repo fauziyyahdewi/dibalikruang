@@ -134,3 +134,8 @@
     @apply bg-background text-foreground;
   }
 }
+
+/* SweetAlert2 override */
+.swal2-container {
+  z-index: 11000 !important;
+}

@@ -1,14 +1,14 @@
-import Image from 'next/image'
-import React from 'react'
-import SignUpForm from '../../../../components/Auth/SignUpForm'
+import Image from "next/image";
+import React from "react";
+import SignUpForm from "../../../../components/Auth/SignUpForm";
 
 const Signup = () => {
   return (
     <div className="flex min-h-screen w-full bg-[#fffbe6]">
       <div className="mx-auto flex w-full max-w-6xl flex-col items-center justify-center p-4 md:flex-row md:p-8">
         {/* Left side with illustration */}
-        <div className="flex w-full flex-col items-center justify-center p-6 md:w-1/2">
-          <div className="mb-8 hidden lg:block text-center md:text-left">
+        <div className="hidden md:flex w-full flex-col items-center justify-center p-6 md:w-1/2">
+          <div className="mb-8 text-center md:text-left">
             <div className="relative h-40 w-40">
               <Image
                 src="/images/Logo-text.png"
@@ -18,7 +18,7 @@ const Signup = () => {
               />
             </div>
           </div>
-          <div className="relative hidden lg:block h-64 w-full md:h-96">
+          <div className="relative h-64 w-full md:h-96">
             <Image
               src="/images/image-login.svg"
               alt="Isometric illustration of business elements"
@@ -31,22 +31,32 @@ const Signup = () => {
 
         {/* Right side with form */}
         <div className="w-full md:w-1/2">
-          <div className="mx-auto w-full max-w-md rounded-3xl bg-white p-8 shadow-lg">
-            <div className="mb-6 text-center">
-              <h1 className="text-2xl font-bold tracking-tight">
-                SIGN UP
-              </h1>
-              <p className="text-sm text-gray-500">
-                Create an account to get started
-              </p>
+          <div className="w-full max-w-md rounded-3xl bg-white  shadow-lg">
+            <div className="md:hidden pt-3 flex items-center justify-center md:text-left border-b-1 border-black/20">
+              <div className="relative h-20 w-35">
+                <Image
+                  src="/images/Logo-text.png"
+                  alt="Logo"
+                  fill
+                  className="object-contain"
+                />
+              </div>
             </div>
+            <div className="mx-auto p-8">
+              <div className="mb-6 text-center">
+                <h1 className="text-2xl font-bold tracking-tight">SIGN UP</h1>
+                <p className="text-sm text-gray-500">
+                  Create an account to get started
+                </p>
+              </div>
 
-            <SignUpForm />
+              <SignUpForm />
+            </div>
           </div>
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default Signup
+export default Signup;

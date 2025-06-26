@@ -14,10 +14,11 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { LogOut } from "lucide-react";
+import { ChartArea, LogOut } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
+import Swal from "sweetalert2";
 
 type Props = {
   openNav: () => void;
@@ -37,11 +38,28 @@ const Nav = ({ openNav }: Props) => {
     return () => window.removeEventListener("scroll", handler);
   }, []);
 
+  const handleLogout = async () => {
+    const result = await Swal.fire({
+      title: "Yakin ingin keluar?",
+      text: "Anda akan keluar dari sesi login.",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#d33",
+      cancelButtonColor: "#3085d6",
+      confirmButtonText: "Ya, keluar",
+      cancelButtonText: "Batal",
+    });
+
+    if (result.isConfirmed) {
+      signOut();
+    }
+  };
+
   return (
     <div
       className={`fixed ${
         navBg ? "bg-white shadow-md" : "fixed"
-      } w-full transition-all duration-200 h-[12vh] z-[1000]`}
+      } w-full transition-all duration-200 lg:h-[12vh] h-[8vh] z-[1000]`}
     >
       <div className="flex items-center justify-between h-full w-[90%] xl:w-[80%] mx-auto">
         {/* LOGO */}
@@ -67,17 +85,22 @@ const Nav = ({ openNav }: Props) => {
               <p className="nav__link">{link.label}</p>
             </Link>
           ))}
+          {status === "loading" ? (
+            <Skeleton className="w-10 h-10 rounded-full" />
+          ) : status === "authenticated" ? (
+            <Link href={"/financial-advisor"}>
+              <button className="md:px-6 md:py-2 px-6 py-2 text-white font-semibold text-base bg-brand-orange hover:bg-brand-gold transition-all duration-200 rounded-full cursor-pointer">
+                Financial Check Up
+              </button>
+            </Link>
+          ) : null}
         </div>
 
         {/* BUTTON */}
         <div className="flex items-center space-x-4">
-          {status === "loading" ? (
-            <div className="flex items-center space-x-2">
-              <Skeleton className="w-10 h-10 rounded-full" />
-              <Skeleton className="w-20 h-4 rounded-md" />
-            </div>
-          ) : status === "unauthenticated" ? (
-            <>
+          {/* Login & Join Us (unauthenticated) */}
+          {status === "unauthenticated" && (
+            <div className="flex items-center space-x-4">
               <Link className="font-semibold" href={"/login"}>
                 Login
               </Link>
@@ -86,69 +109,71 @@ const Nav = ({ openNav }: Props) => {
                   Join Us
                 </button>
               </Link>
-            </>
-          ) : (
-            // Dropdown session user
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <Button
-                  variant="ghost"
-                  className="relative h-8 rounded-full px-2 flex items-center space-x-2"
-                >
-                  <Avatar className="h-10 w-10 border-2  rounded-full">
-                    <AvatarImage
-                      src="/images/profile-anonim.png"
-                      alt={session?.user?.name || "User"}
-                    />
-                    <AvatarFallback>
-                      {session?.user?.name?.charAt(0) || "U"}
-                    </AvatarFallback>
-                  </Avatar>
-                  <span className="text-sm font-semibold">
-                    {session?.user?.name}
-                  </span>
-                </Button>
-              </DropdownMenuTrigger>
-
-              <DropdownMenuContent
-                className="w-56 z-[1100]"
-                align="end"
-                forceMount
-              >
-                <DropdownMenuItem className="font-normal">
-                  <Link href={"/profile"}>
-                    <div className="flex flex-col space-y-1">
-                      <p className="text-sm font-medium leading-none">
-                        {session?.user?.name}
-                      </p>
-                      <p className="text-xs leading-none text-muted-foreground">
-                        {session?.user?.email}
-                      </p>
-                    </div>
-                  </Link>
-                </DropdownMenuItem>
-                {/* <DropdownMenuSeparator />
-                <DropdownMenuItem asChild>
-                  <Link href="/profile">
-                    <User className="mr-2 h-4 w-4" />
-                    <span>Profile</span>
-                  </Link>
-                </DropdownMenuItem>
-                <DropdownMenuItem asChild>
-                  <Link href="/settings">
-                    <Settings className="mr-2 h-4 w-4" />
-                    <span>Settings</span>
-                  </Link>
-                </DropdownMenuItem> */}
-                <DropdownMenuSeparator />
-                <DropdownMenuItem onClick={() => signOut()}>
-                  <LogOut className="mr-2 h-4 w-4" />
-                  <span>Log out</span>
-                </DropdownMenuItem>
-              </DropdownMenuContent>
-            </DropdownMenu>
+            </div>
           )}
 
+          {/* User Dropdown (authenticated) */}
+          {status === "authenticated" && (
+            <div className="hidden lg:flex items-center">
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button
+                    variant="ghost"
+                    className="relative h-8 rounded-full px-2 flex items-center space-x-2"
+                  >
+                    <Avatar className="h-10 w-10 border-2 rounded-full">
+                      <AvatarImage
+                        src="/images/profile-anonim.png"
+                        alt={session?.user?.name || "User"}
+                      />
+                      <AvatarFallback>
+                        {session?.user?.name?.charAt(0) || "U"}
+                      </AvatarFallback>
+                    </Avatar>
+                    <span className="text-sm font-semibold">
+                      {session?.user?.name}
+                    </span>
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent
+                  className="w-56 z-[1100]"
+                  align="end"
+                  forceMount
+                >
+                  <DropdownMenuItem className="font-normal">
+                    <Link href={"/profile"}>
+                      <div className="flex flex-col space-y-1">
+                        <p className="text-sm font-medium leading-none">
+                          {session?.user?.name}
+                        </p>
+                        <p className="text-xs leading-none text-muted-foreground">
+                          {session?.user?.email}
+                        </p>
+                      </div>
+                    </Link>
+                  </DropdownMenuItem>
+                  <DropdownMenuSeparator />
+                  {session?.user.role === "financial-advisor" && (
+                    <>
+                      <DropdownMenuItem asChild>
+                        <Link href="/financial-advisor">
+                          <ChartArea className="mr-2 h-4 w-4" />
+                          <span>Dashboard</span>
+                        </Link>
+                      </DropdownMenuItem>
+                      <DropdownMenuSeparator />
+                    </>
+                  )}
+                  <DropdownMenuItem onClick={handleLogout}>
+                    <LogOut className="mr-2 h-4 w-4" />
+                    <span>Log out</span>
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+            </div>
+          )}
+
+          {/* Mobile menu button - tetap tampil */}
           <HiBars3BottomRight
             onClick={openNav}
             className="w-8 h-8 cursor-pointer text-black lg:hidden"

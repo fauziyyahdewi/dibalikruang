@@ -58,7 +58,7 @@ const LoginForm = () => {
   //       title: "Login Berhasil",
   //       text: "Selamat datang kembali!",
   //     }).then(() => router.push("/"));
-  //   } else {
+  //   } else {`
   //     Swal.fire({
   //       icon: "error",
   //       title: "Oops...",
@@ -70,7 +70,7 @@ const LoginForm = () => {
   const onSubmit = async (data: FormDataLogin) => {
     const result = await loginCredentials(data);
 
-    if (result?.error) {
+    if (result?.error || result?.message) {
       Swal.fire({
         icon: "error",
         title: "Oops...",
@@ -92,7 +92,11 @@ const LoginForm = () => {
       if (session) {
         clearInterval(interval);
         Swal.close();
-        router.push("/");
+        if (session.user.role === "financial-advisor") {
+          router.push("/financial-advisor");
+        } else {
+          router.push("/");
+        }
       }
     }, 500);
   };

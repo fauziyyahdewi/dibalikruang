@@ -71,7 +71,7 @@ export const loginCredentials = async (formData: FormDataLogin) => {
       email,
       password,
       role: "user",
-      redirectTo: "/",
+      redirect: false,
     });
   } catch (error) {
     if (error instanceof AuthError) {
