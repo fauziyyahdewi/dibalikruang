@@ -1,3 +1,5 @@
+import { FormValues } from "./form-values";
+
 export type Indicator = {
   label: string;
   value: string;
@@ -30,8 +32,10 @@ export type IndicatorDetail = {
 };
 
 export type CalculateResult = {
+  id?: number;
   percent: number;
   overallCondition: FinancialCondition;
   message: string;
   details: IndicatorDetail[];
+  rawInput?: FormValues;
 };

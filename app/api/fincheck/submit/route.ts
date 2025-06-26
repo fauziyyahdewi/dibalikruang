@@ -37,8 +37,8 @@ export async function POST(req: NextRequest) {
       await prisma.client_finance_detail.createMany({
         data: financeDetails.map((item: any) => ({
           user_id: Number(userId),
-          finance_type_id: item.typeId,
-          finance_subtype_id: item.subtypeId,
+          finance_category_id: item.finance_category_id,
+          finance_type_id: item.finance_type_id,
           name: item.name,
           amount: BigInt(item.amount),
         })),
@@ -68,12 +68,102 @@ export async function POST(req: NextRequest) {
     }
 
     // Response berhasil
-    return NextResponse.json({ success: true }, { status: 200 });
+    return NextResponse.json(
+      { success: true, id: fincheckResult.id },
+      { status: 200 }
+    );
   } catch (error) {
     // Menangani error dan memberikan response gagal
     console.error("FinCheck Submit Error:", error);
     return NextResponse.json(
       { error: "Terjadi kesalahan saat menyimpan data." },
+      { status: 500 }
+    );
+  }
+}
+
+export async function PUT(req: NextRequest) {
+  try {
+    const session = await auth();
+    const userId = session?.user?.id;
+
+    if (!userId) {
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    }
+
+    const body = await req.json();
+    const { id, financeSummary, financeDetails, calculated } = body;
+
+    if (!id) {
+      return NextResponse.json(
+        { error: "Missing fincheck result ID" },
+        { status: 400 }
+      );
+    }
+
+    // 1. Hapus semua data lama terkait user & hasil sebelumnya
+    await prisma.client_finance.deleteMany({
+      where: { user_id: Number(userId) },
+    });
+
+    await prisma.client_finance_detail.deleteMany({
+      where: { user_id: Number(userId) },
+    });
+
+    await prisma.fincheck_result_detail.deleteMany({
+      where: { fincheck_result_id: id },
+    });
+
+    // 2. Update fincheck_result utama
+    await prisma.fincheck_result.update({
+      where: { id },
+      data: {
+        percent: Math.round(calculated.percent),
+        description: calculated.message,
+      },
+    });
+
+    // 3. Simpan data baru ke 3 tabel lainnya
+
+    if (financeSummary?.length) {
+      await prisma.client_finance.createMany({
+        data: financeSummary.map((item: any) => ({
+          user_id: Number(userId),
+          finance_category_id: item.finance_category_id,
+          amount: BigInt(item.amount || 0),
+        })),
+      });
+    }
+
+    if (financeDetails?.length) {
+      await prisma.client_finance_detail.createMany({
+        data: financeDetails.map((item: any) => ({
+          user_id: Number(userId),
+          finance_type_id: item.typeId,
+          finance_subtype_id: item.subtypeId,
+          name: item.name,
+          amount: BigInt(item.amount),
+        })),
+      });
+    }
+
+    if (calculated.details?.length) {
+      await prisma.fincheck_result_detail.createMany({
+        data: calculated.details.map((item: any) => ({
+          fincheck_result_id: id,
+          fincheck_result_type_id: item.typeId,
+          result_category_id: item.categoryId,
+          value: Math.round(item.value),
+          description: item.description,
+        })),
+      });
+    }
+
+    return NextResponse.json({ success: true, id });
+  } catch (error) {
+    console.error("FinCheck Update Error:", error);
+    return NextResponse.json(
+      { error: "Gagal memperbarui data" },
       { status: 500 }
     );
   }

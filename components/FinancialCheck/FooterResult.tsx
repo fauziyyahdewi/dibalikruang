@@ -1,7 +1,11 @@
 import { Download, RefreshCcw } from "lucide-react";
 import React from "react";
 
-const FooterResult = () => {
+type FooterResultProps = {
+  onRetry: () => void;
+};
+
+const FooterResult = ({ onRetry }: FooterResultProps) => {
   return (
     <div>
       {/* Footer */}
@@ -27,7 +31,10 @@ const FooterResult = () => {
         {/* Aksi Buttons */}
         <div className="flex lg:justify-end justify-center gap-3">
           <button
-            onClick={() => location.reload()}
+            onClick={
+              onRetry
+              // () => location.reload()
+            }
             className="flex items-center gap-2 bg-gray-100 hover:bg-gray-200 text-sm text-gray-700 font-medium px-4 py-2 rounded-md transition"
           >
             <RefreshCcw size={16} />

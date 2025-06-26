@@ -19,13 +19,14 @@ import { CalculateResult } from "@/types/financial-check-result";
 
 type FinancialCheckFormProps = {
   onSubmitComplete: (data: CalculateResult) => void;
+  previousValues?: FormValues;
 };
 
 const TOTAL_STEPS = 7;
 
-const FinancialCheckForm = ({ onSubmitComplete }: FinancialCheckFormProps) => {
+const FinancialCheckForm = ({ onSubmitComplete, previousValues }: FinancialCheckFormProps) => {
   const form = useForm<FormValues>({
-    defaultValues: {
+    defaultValues: previousValues || {
       incomesSources: [
         { name: "Gaji", amount: 0 },
         { name: "Pendapatan Pasif", amount: 0 },
@@ -108,7 +109,11 @@ const FinancialCheckForm = ({ onSubmitComplete }: FinancialCheckFormProps) => {
         text: "Hasil Financial Check Up Anda Telah Keluar",
       });
 
-      onSubmitComplete(calculated);
+      onSubmitComplete({
+        id: result.id,
+        ...calculated,
+        rawInput: values,
+      });
     } catch (err: any) {
       Swal.fire({
         icon: "error",

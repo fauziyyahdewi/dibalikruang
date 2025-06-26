@@ -12,11 +12,19 @@ const FinancialCheckWrapper = () => {
     "consent"
   );
 
-  const [formResultData, setFormResultData] = useState<CalculateResult | null>(null);
+  const [formResultData, setFormResultData] = useState<CalculateResult | null>(
+    null
+  );
+
+  const handleRetry = () => {
+    if (formResultData?.rawInput) {
+      setCurrentStep("form");
+    }
+  };
 
   return (
     <div>
-      <div className="bg-white rounded-md shadow-md p-6">
+      {currentStep !== "result" && <div className="bg-white rounded-md shadow-md p-6">
         {/* Header */}
         <div className="flex border-b-[1px] justify-center mb-6">
           <div className="w-25 md:w-30 pb-2">
@@ -40,25 +48,17 @@ const FinancialCheckWrapper = () => {
 
         {currentStep === "form" && (
           <FinancialCheckForm
+            previousValues={formResultData?.rawInput}
             onSubmitComplete={(data) => {
               setFormResultData(data);
               setCurrentStep("result");
             }}
           />
         )}
-
-        {currentStep === "result" && (
-          <div className="flex flex-col items-center justify-center">
-            <h2 className="font-semibold">
-              Hai, Jia Hasil Financial Check Up Anda sudah keluar nih!
-            </h2>
-            <p>Mari kita review satu persatu.</p>
-          </div>
-        )}
-      </div>
+      </div>}
 
       {currentStep === "result" && formResultData && (
-        <Result data={formResultData} />
+        <Result data={formResultData} onRetry={handleRetry} />
       )}
     </div>
   );

@@ -5,12 +5,16 @@ import React from "react";
 import ResultDetail from "./ResultDetail";
 import { CalculateResult } from "@/types/financial-check-result";
 import FooterResult from "./FooterResult";
+import Image from "next/image";
+import { useSession } from "next-auth/react";
 
 type ResultProps = {
   data: CalculateResult;
+  onRetry: () => void;
 };
 
-const Result = ({ data }: ResultProps) => {
+const Result = ({ data, onRetry }: ResultProps) => {
+  const { data: session } = useSession();
   const { percent: score, details: indicators } = data;
 
   const getStatus = (score: number) => {
@@ -42,7 +46,19 @@ const Result = ({ data }: ResultProps) => {
   const { text, color, hex } = getStatus(score);
 
   return (
-    <div className="mt-6 bg-white rounded-md shadow-md p-6 flex flex-col items-strecth">
+    <div className="bg-white rounded-md shadow-md p-6 flex flex-col items-strecth">
+      <div className="flex border-b-[1px] justify-center mb-6">
+        <div className="w-25 md:w-30 pb-2">
+          <Image
+            className="w-full"
+            width={100}
+            height={100}
+            src="/images/Logo-text.png"
+            alt="logo"
+          />
+        </div>
+      </div>
+
       {/* Donut Chart Container */}
       <div className="flex justify-center">
         <div className="relative w-[200px] h-[200px] mb-3 ">
@@ -84,11 +100,19 @@ const Result = ({ data }: ResultProps) => {
         <p className="text-sm font-semibold">{text}</p>
       </div>
 
+      <div className="flex pt-5 flex-col items-center justify-center">
+        <h2 className="font-semibold">
+          Hai, <span>{session?.user?.name}</span> Hasil Financial Check Up Anda
+          sudah keluar!
+        </h2>
+        <p>Mari kita review satu persatu.</p>
+      </div>
+
       {/* Result Detail */}
       <ResultDetail results={indicators} />
 
       {/* Footer */}
-      <FooterResult />
+      <FooterResult onRetry={onRetry} />
     </div>
   );
 };

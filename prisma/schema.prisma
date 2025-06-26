@@ -31,16 +31,16 @@ model client_finance {
 }
 
 model client_finance_detail {
-  id                 Int              @id @default(autoincrement())
-  user_id            Int?
-  finance_type_id    Int?
-  finance_subtype_id Int?
-  name               String           @db.VarChar(255)
-  amount             BigInt
-  created_at         DateTime?        @default(now()) @db.Timestamp(6)
-  updated_at         DateTime?        @default(now()) @db.Timestamp(6)
-  finance_subtype    finance_subtype? @relation(fields: [finance_subtype_id], references: [id], onUpdate: NoAction, map: "client_finance_detail_subtype_fkey")
-  finance_type       finance_type?    @relation(fields: [finance_type_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "client_finance_detail_type_fkey")
+  id                  Int               @id @default(autoincrement())
+  user_id             Int?
+  finance_category_id Int?
+  finance_type_id     Int?
+  name                String            @db.VarChar(255)
+  amount              BigInt
+  created_at          DateTime?         @default(now()) @db.Timestamp(6)
+  updated_at          DateTime?         @default(now()) @db.Timestamp(6)
+  finance_category    finance_category? @relation(fields: [finance_category_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "client_finance_detail_finance_category_fkey")
+  finance_type        finance_type?     @relation(fields: [finance_type_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "client_finance_detail_type_fkey")
 }
 
 model clients {
@@ -64,9 +64,10 @@ model failed_jobs {
 }
 
 model finance_category {
-  id             Int              @id @default(autoincrement())
-  name           String           @db.VarChar(255)
-  client_finance client_finance[]
+  id                    Int                     @id @default(autoincrement())
+  name                  String                  @db.VarChar(255)
+  client_finance        client_finance[]
+  client_finance_detail client_finance_detail[]
 }
 
 model finance_recommendation {
@@ -80,11 +81,8 @@ model finance_recommendation {
 
 model finance_subtype {
   id                     Int                      @id @default(autoincrement())
-  type_id                Int?
   name                   String                   @db.VarChar(255)
-  client_finance_detail  client_finance_detail[]
   finance_recommendation finance_recommendation[]
-  finance_type           finance_type?            @relation(fields: [type_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
 }
 
 model finance_type {
@@ -92,7 +90,6 @@ model finance_type {
   name                   String                   @db.VarChar(255)
   client_finance_detail  client_finance_detail[]
   finance_recommendation finance_recommendation[]
-  finance_subtype        finance_subtype[]
 }
 
 model financial_advisors {
@@ -210,10 +207,10 @@ model users {
   name              String    @db.VarChar(255)
   email             String    @unique(map: "users_email_unique") @db.VarChar(255)
   email_verified_at DateTime? @db.Timestamp(0)
-  image             String?   @db.VarChar(255)
   password          String    @db.VarChar(255)
-  role              String    @default("user")
   remember_token    String?   @db.VarChar(100)
   created_at        DateTime? @db.Timestamp(0)
   updated_at        DateTime? @db.Timestamp(0)
+  image             String?   @db.VarChar(255)
+  role              String    @default("user")
 }

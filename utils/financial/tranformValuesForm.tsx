@@ -3,8 +3,8 @@ import { FormValues } from "@/types/form-values";
 type FinanceDetail = {
   name: string;
   amount: number;
-  finance_type_id: number;
-  finance_subtype_id: number | null;
+  finance_category_id: number;
+  finance_type_id: number | null;
 };
 
 export function transformFormValues(values: FormValues) {
@@ -64,13 +64,13 @@ export function transformFormValues(values: FormValues) {
 
   const toDetail = (
     sources: { name: string; amount: number | string }[],
-    finance_type_id: number
+    finance_category_id: number
   ): FinanceDetail[] => {
     return sources.map((item) => ({
       name: item.name,
       amount: Number(item.amount),
-      finance_type_id,
-      finance_subtype_id: null,
+      finance_category_id,
+      finance_type_id: null,
     }));
   };
 
@@ -83,8 +83,8 @@ export function transformFormValues(values: FormValues) {
     ...values.savingsSources.map((item) => ({
       name: item.name,
       amount: Number(item.amount),
-      finance_type_id: 6,
-      finance_subtype_id: item.type === "tabungan" ? 2 : 1,
+      finance_category_id: item.type === "tabungan" ? 5 : 6,
+      finance_type_id: item.type === "tabungan" ? 1 : null,
     })),
   ];
 
