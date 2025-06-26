@@ -104,7 +104,7 @@ const MobileNav = ({ closeNav, showNav }: Props) => {
           {status === "loading" ? (
             <Skeleton className="w-10 h-10 rounded-full" />
           ) : status === "authenticated" ? (
-            <Link href={"/financial-advisor"} onClick={closeNav}>
+            <Link href={"/financial-check"} onClick={closeNav}>
               <div className="flex items-center gap-3 text-[20px] hover:border-b-[1.5px] pb-1 hover:border-white sm:text-[30px]">
                 <CircleDollarSign className="w-5 h-5" />
                 <p className="nav__link">Financial Check Up</p>

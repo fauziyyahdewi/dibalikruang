@@ -24,13 +24,13 @@ export default function UserLayout({
               <FaInstagram />
             </Link>
             <Link href="#" className="text-gray-500 hover:text-gray-800">
+              <FaTiktok />
+            </Link>
+            <Link href="#" className="text-gray-500 hover:text-gray-800">
               <FaFacebook />
             </Link>
             <Link href="#" className="text-gray-500 hover:text-gray-800">
               <FaXTwitter />
-            </Link>
-            <Link href="#" className="text-gray-500 hover:text-gray-800">
-              <FaTiktok />
             </Link>
           </div>
         </div>

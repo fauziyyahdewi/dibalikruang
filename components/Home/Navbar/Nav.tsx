@@ -31,7 +31,7 @@ const Nav = ({ openNav }: Props) => {
 
   useEffect(() => {
     const handler = () => {
-      setNavBg(window.scrollY >= 97);
+      setNavBg(window.scrollY >= 40);
     };
 
     window.addEventListener("scroll", handler);
@@ -88,7 +88,7 @@ const Nav = ({ openNav }: Props) => {
           {status === "loading" ? (
             <Skeleton className="w-10 h-10 rounded-full" />
           ) : status === "authenticated" ? (
-            <Link href={"/financial-advisor"}>
+            <Link href={"/financial-check"}>
               <button className="md:px-6 md:py-2 px-6 py-2 text-white font-semibold text-base bg-brand-orange hover:bg-brand-gold transition-all duration-200 rounded-full cursor-pointer">
                 Financial Check Up
               </button>
