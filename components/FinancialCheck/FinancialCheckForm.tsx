@@ -20,11 +20,18 @@ import { CalculateResult } from "@/types/financial-check-result";
 type FinancialCheckFormProps = {
   onSubmitComplete: (data: CalculateResult) => void;
   previousValues?: FormValues;
+  clientFinanceId?: number;
+  fincheckId?: number;
 };
 
 const TOTAL_STEPS = 7;
 
-const FinancialCheckForm = ({ onSubmitComplete, previousValues }: FinancialCheckFormProps) => {
+const FinancialCheckForm = ({
+  onSubmitComplete,
+  previousValues,
+  clientFinanceId,
+  fincheckId,
+}: FinancialCheckFormProps) => {
   const form = useForm<FormValues>({
     defaultValues: previousValues || {
       incomesSources: [
@@ -88,11 +95,14 @@ const FinancialCheckForm = ({ onSubmitComplete, previousValues }: FinancialCheck
       const calculated = calculateIndicators(dataForCalculation);
 
       console.log("=== Calculated Indicators ===", calculated);
+      console.log("=== Calculated Indicators (Detail) ===", calculated.details);
 
       const res = await fetch("/api/fincheck/submit", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
+          clientFinanceId,
+          fincheckId,
           financeSummary: summary,
           financeDetails: details,
           calculated,
@@ -110,15 +120,17 @@ const FinancialCheckForm = ({ onSubmitComplete, previousValues }: FinancialCheck
       });
 
       onSubmitComplete({
-        id: result.id,
+        clientFinanceId: result.client_finance_id,
+        fincheckId: result.fincheck_id,
         ...calculated,
         rawInput: values,
       });
     } catch (err: any) {
+      console.log(err.message, err);
       Swal.fire({
         icon: "error",
         title: "Gagal",
-        text: err.message || "Terjadi kesalahan",
+        text: "Terjadi kesalahan",
       });
     }
   };

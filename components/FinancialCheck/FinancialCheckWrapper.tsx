@@ -48,6 +48,8 @@ const FinancialCheckWrapper = () => {
 
         {currentStep === "form" && (
           <FinancialCheckForm
+            clientFinanceId={formResultData?.clientFinanceId}
+            fincheckId={formResultData?.fincheckId}
             previousValues={formResultData?.rawInput}
             onSubmitComplete={(data) => {
               setFormResultData(data);

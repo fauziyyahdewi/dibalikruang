@@ -24,15 +24,18 @@ export type ResultValues = {
 export type FinancialCondition = "Ideal" | "Kurang Optimal" | "Tidak Ideal";
 
 export type IndicatorDetail = {
+  categoryId: number;
   category: string;
   percent: number;
-  value: number;
-  category_level: FinancialCondition;
+  amountInput: number;
+  conditionLevel: number;
+  position: string;
   description: string;
 };
 
 export type CalculateResult = {
-  id?: number;
+  clientFinanceId?: number;
+  fincheckId?: number;
   percent: number;
   overallCondition: FinancialCondition;
   message: string;

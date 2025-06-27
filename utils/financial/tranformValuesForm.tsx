@@ -41,9 +41,9 @@ export function transformFormValues(values: FormValues) {
     },
     {
       finance_category_id: 5,
-      amount: Number(
-        values.savingsSources.find((item) => item.type === "menabung")
-          ?.amount || 0
+      amount: values.investmentSources.reduce(
+        (sum, item) => sum + Number(item.amount),
+        0
       ),
     },
     {
@@ -55,9 +55,9 @@ export function transformFormValues(values: FormValues) {
     },
     {
       finance_category_id: 7,
-      amount: values.investmentSources.reduce(
-        (sum, item) => sum + Number(item.amount),
-        0
+      amount: Number(
+        values.savingsSources.find((item) => item.type === "menabung")
+          ?.amount || 0
       ),
     },
   ];
@@ -83,19 +83,19 @@ export function transformFormValues(values: FormValues) {
     ...values.savingsSources.map((item) => ({
       name: item.name,
       amount: Number(item.amount),
-      finance_category_id: item.type === "tabungan" ? 5 : 6,
+      finance_category_id: item.type === "tabungan" ? 6 : 7,
       finance_type_id: item.type === "tabungan" ? 1 : null,
     })),
   ];
 
   const dataForCalculation = {
     pendapatan: summary[0].amount,
-    pengeluaran: summary[1].amount,
+    pengeluaran: summary[1].amount + summary[6].amount,
     aset: summary[2].amount,
     hutang: summary[3].amount,
-    menabung: summary[4].amount,
+    investasi: summary[4].amount,
     tabungan: summary[5].amount,
-    investasi: summary[6].amount,
+    menabung: summary[6].amount,
     dana_darurat: summary[5].amount,
     asset_liquid: summary[5].amount,
   };

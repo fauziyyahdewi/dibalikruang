@@ -15,8 +15,8 @@ const formatValue = (val: number) => {
 const FinancialCheckResultDetails = ({
   results,
 }: FinancialCheckResultDetailsProps) => {
-  const ideal = results.filter((item) => item.category_level === "Ideal");
-  const notIdeal = results.filter((item) => item.category_level !== "Ideal");
+  const ideal = results.filter((item) => item.conditionLevel === 1);
+  const notIdeal = results.filter((item) => item.conditionLevel !== 1);
 
   const renderItem = (
     item: IndicatorDetail,
@@ -26,30 +26,35 @@ const FinancialCheckResultDetails = ({
   ) => (
     <div
       key={item.category}
-      className={`p-4 border-l-4 ${borderColor} ${color} rounded-md shadow-sm`}
+      className={`p-4 border-l-4 ${borderColor} ${color} rounded-xl shadow-sm transition duration-300`}
     >
-      <div className="flex items-center gap-2 font-medium mb-1">
-        {icon}
-        {item.category} -{" "}
-        <span className="text-xs italic">{item.category_level}</span>
-      </div>
-      <div className="text-sm text-gray-700">
-        <div>
-          Nilai:{" "}
-          <span className="font-semibold">{formatValue(item.value)}</span>
-        </div>
-
-        {item.category_level !== "Ideal" && (
-          <div>
-            Persentase:{" "}
-            <span className="font-semibold">{Math.round(item.percent)}%</span>
+      {/* Header: kategori + nilai */}
+      <div className="flex justify-between items-center mb-2 border-b pb-2">
+        <div className="flex items-center gap-3 text-base font-semibold">
+          <div className="bg-white/50 rounded-full p-1 border border-gray-200">
+            {icon}
           </div>
-        )}
-
-        {item.description && (
-          <p className="text-xs text-gray-600 mt-1">{item.description}</p>
-        )}
+          <span>{item.category}</span>
+        </div>
+        <div className="text-sm font-bold text-gray-800">
+          {typeof item.amountInput === "number"
+            ? formatValue(item.amountInput)
+            : "-"}
+        </div>
       </div>
+
+      {/* Posisi */}
+      <div className="text-sm text-gray-700 mb-1">
+        <span className="font-medium">Kondisi Anda:</span>{" "}
+        <span className="font-semibold">{item.position}</span>
+      </div>
+
+      {/* Deskripsi */}
+      {item.description && (
+        <p className="text-xs text-gray-600 mt-1 leading-relaxed">
+          {item.description}
+        </p>
+      )}
     </div>
   );
 

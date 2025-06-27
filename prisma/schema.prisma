@@ -21,17 +21,18 @@ model cache_locks {
 }
 
 model client_finance {
-  id                  Int               @id @default(autoincrement())
-  user_id             Int?
-  finance_category_id Int?
-  amount              BigInt
-  created_at          DateTime?         @default(now()) @db.Timestamp(6)
-  updated_at          DateTime?         @default(now()) @db.Timestamp(6)
-  finance_category    finance_category? @relation(fields: [finance_category_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "client_finance_category_id_fkey")
+  id                     Int                      @id @default(autoincrement())
+  user_id                Int?
+  created_at             DateTime?                @default(now()) @db.Timestamp(6)
+  updated_at             DateTime?                @default(now()) @db.Timestamp(6)
+  client_finance_detail  client_finance_detail[]
+  client_finance_summary client_finance_summary[]
+  fincheck_result        fincheck_result[]
 }
 
 model client_finance_detail {
   id                  Int               @id @default(autoincrement())
+  client_finance_id   Int?
   user_id             Int?
   finance_category_id Int?
   finance_type_id     Int?
@@ -39,6 +40,7 @@ model client_finance_detail {
   amount              BigInt
   created_at          DateTime?         @default(now()) @db.Timestamp(6)
   updated_at          DateTime?         @default(now()) @db.Timestamp(6)
+  client_finance      client_finance?   @relation(fields: [client_finance_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "client_finance_detail_client_finance_fkey")
   finance_category    finance_category? @relation(fields: [finance_category_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "client_finance_detail_finance_category_fkey")
   finance_type        finance_type?     @relation(fields: [finance_type_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "client_finance_detail_type_fkey")
 }
@@ -64,10 +66,10 @@ model failed_jobs {
 }
 
 model finance_category {
-  id                    Int                     @id @default(autoincrement())
-  name                  String                  @db.VarChar(255)
-  client_finance        client_finance[]
-  client_finance_detail client_finance_detail[]
+  id                     Int                      @id @default(autoincrement())
+  name                   String                   @db.VarChar(255)
+  client_finance_detail  client_finance_detail[]
+  client_finance_summary client_finance_summary[]
 }
 
 model finance_recommendation {
@@ -101,34 +103,38 @@ model financial_advisors {
 }
 
 model fincheck_result {
-  id                     Int                      @id @default(autoincrement())
-  user_id                Int?
-  financial_advisor_id   Int?
-  percent                Int
-  description            String                   @db.VarChar(255)
-  created_at             DateTime?                @default(now()) @db.Timestamp(6)
-  updated_at             DateTime?                @default(now()) @db.Timestamp(6)
-  financial_advisors     financial_advisors?      @relation(fields: [financial_advisor_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
-  fincheck_result_detail fincheck_result_detail[]
-}
-
-model fincheck_result_detail {
   id                      Int                   @id @default(autoincrement())
-  fincheck_result_id      Int?
+  user_id                 Int?
+  financial_advisor_id    Int?
   fincheck_result_type_id Int?
-  result_category_id      Int?
-  value                   Int
+  client_finance_id       Int?
+  percent                 Int
   description             String                @db.VarChar(255)
   created_at              DateTime?             @default(now()) @db.Timestamp(6)
   updated_at              DateTime?             @default(now()) @db.Timestamp(6)
-  fincheck_result         fincheck_result?      @relation(fields: [fincheck_result_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
-  fincheck_result_type    fincheck_result_type? @relation(fields: [fincheck_result_type_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
-  result_category         result_category?      @relation(fields: [result_category_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  client_finance          client_finance?       @relation(fields: [client_finance_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "fincheck_result_client_finance_fkey")
+  financial_advisors      financial_advisors?   @relation(fields: [financial_advisor_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  fincheck_result_type    fincheck_result_type? @relation(fields: [fincheck_result_type_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "fincheck_result_fincheck_result_type_fkey")
+}
+
+model fincheck_result_detail {
+  id                          Int                       @id @default(autoincrement())
+  fincheck_result_id          Int?
+  fincheck_result_category_id Int?
+  fincheck_result_type_id     Int?
+  value                       Int
+  position_detail             String?                   @db.VarChar(255)
+  description                 String                    @db.VarChar(255)
+  created_at                  DateTime?                 @default(now()) @db.Timestamp(6)
+  updated_at                  DateTime?                 @default(now()) @db.Timestamp(6)
+  fincheck_result_category    fincheck_result_category? @relation(fields: [fincheck_result_category_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  fincheck_result_type        fincheck_result_type?     @relation(fields: [fincheck_result_type_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
 }
 
 model fincheck_result_type {
   id                     Int                      @id @default(autoincrement())
-  name                   String                   @db.VarChar(255)
+  name                   String?                  @db.VarChar(255)
+  fincheck_result        fincheck_result[]
   fincheck_result_detail fincheck_result_detail[]
 }
 
@@ -185,9 +191,8 @@ model personal_access_tokens {
 }
 
 model result_category {
-  id                     Int                      @id @default(autoincrement())
-  name                   String                   @db.VarChar(255)
-  fincheck_result_detail fincheck_result_detail[]
+  id   Int    @id @default(autoincrement())
+  name String @db.VarChar(255)
 }
 
 model sessions {
@@ -213,4 +218,22 @@ model users {
   updated_at        DateTime? @db.Timestamp(0)
   image             String?   @db.VarChar(255)
   role              String    @default("user")
+}
+
+model client_finance_summary {
+  id                  Int               @id @default(autoincrement())
+  client_finance_id   Int?
+  user_id             Int?
+  finance_category_id Int?
+  amount              BigInt
+  created_at          DateTime?         @default(now()) @db.Timestamp(6)
+  updated_at          DateTime?         @default(now()) @db.Timestamp(6)
+  finance_category    finance_category? @relation(fields: [finance_category_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "client_finance_category_id_fkey")
+  client_finance      client_finance?   @relation(fields: [client_finance_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "client_finance_summary_client_finance_fkey")
+}
+
+model fincheck_result_category {
+  id                     Int                      @id @default(autoincrement())
+  name                   String                   @db.VarChar(255)
+  fincheck_result_detail fincheck_result_detail[]
 }
