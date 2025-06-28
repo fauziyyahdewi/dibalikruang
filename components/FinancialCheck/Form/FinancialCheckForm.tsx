@@ -1,17 +1,18 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useForm, FormProvider } from "react-hook-form";
 import StepNavigation from "./StepNavigation";
 import HeaderForm from "./HeaderForm";
-import IncomeStep from "./Step/IncomeStep";
-import ExpenseStep from "./Step/ExpenseStep";
-import SavingStep from "./Step/SavingStep";
-import InvestmentStep from "./Step/InvestmentStep";
-import AssetStep from "./Step/AssetStep";
-import DebtStep from "./Step/DebtStep";
+import IncomeStep from "../Step/IncomeStep";
+import ExpenseStep from "../Step/ExpenseStep";
+import SavingStep from "../Step/SavingStep";
+import InvestmentStep from "../Step/InvestmentStep";
+import AssetStep from "../Step/AssetStep";
+import DebtStep from "../Step/DebtStep";
+import LastStep from "../Step/LastStep";
+
 import { FormValues } from "@/types/form-values";
-import LastStep from "./Step/LastStep";
 import Swal from "sweetalert2";
 import { transformFormValues } from "@/utils/financial/tranformValuesForm";
 import { calculateIndicators } from "@/utils/financial/calculate";
@@ -26,6 +27,13 @@ type FinancialCheckFormProps = {
 
 const TOTAL_STEPS = 7;
 
+const predefinedJobs = [
+  "Pelajar / Mahasiswa",
+  "Karyawan Swasta",
+  "Pegawai Negeri / BUMN",
+  "Wirausaha",
+];
+
 const FinancialCheckForm = ({
   onSubmitComplete,
   previousValues,
@@ -33,6 +41,8 @@ const FinancialCheckForm = ({
   fincheckId,
 }: FinancialCheckFormProps) => {
   const form = useForm<FormValues>({
+    mode: "onChange",
+    criteriaMode: "all",
     defaultValues: previousValues || {
       incomesSources: [
         { name: "Gaji", amount: 0 },
@@ -57,6 +67,48 @@ const FinancialCheckForm = ({
   });
 
   const [step, setStep] = useState(0);
+
+  // ✅ Fetch client profile on mount
+  useEffect(() => {
+    const fetchClientData = async () => {
+      try {
+        const res = await fetch("/api/clients/me");
+
+        if (!res.ok) throw new Error("Gagal memuat data klien");
+
+        const client = await res.json();
+        console.log("Data klien:", client);
+        if (!client) return;
+
+        const resetData: any = {
+          ...form.getValues(), // pertahankan input user
+          name: client.name || "",
+          email: client.email || "",
+          phone: client.phone || "",
+          birthday: client.birthday || "",
+          married: client.married ?? false,
+          hasDependents: !!client.dependents,
+          dependents: client.dependents || 0,
+          dependents_note: client.dependents_note || "",
+          domisili: client.domisili || "",
+        };
+
+        // ✅ Hanya set job kalau memang ada
+        if (client.job) {
+          const isPredefined = predefinedJobs.includes(client.job);
+          resetData.job = client.job;
+          resetData.jobSelect = isPredefined ? client.job : "lainnya";
+          resetData.jobText = isPredefined ? "" : client.job;
+        }
+
+        form.reset(resetData);
+      } catch (err) {
+        console.error("Gagal memuat data klien", err);
+      }
+    };
+
+    fetchClientData();
+  }, [form]);
 
   const handleNext = () => setStep((s) => s + 1);
   const handleBack = () => setStep((s) => s - 1);
@@ -87,15 +139,7 @@ const FinancialCheckForm = ({
       const { summary, details, dataForCalculation } =
         transformFormValues(values);
 
-      console.log("=== Raw Form Values ===", values);
-      console.log("=== Summary ===", summary);
-      console.log("=== Details ===", details);
-      console.log("=== Data for Calculation ===", dataForCalculation);
-
       const calculated = calculateIndicators(dataForCalculation);
-
-      console.log("=== Calculated Indicators ===", calculated);
-      console.log("=== Calculated Indicators (Detail) ===", calculated.details);
 
       const res = await fetch("/api/fincheck/submit", {
         method: "POST",
@@ -109,8 +153,24 @@ const FinancialCheckForm = ({
         }),
       });
 
-      const result = await res.json();
+      await fetch("/api/clients/me", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name: values.name,
+          email: values.email,
+          phone: values.phone,
+          birthday: values.birthday,
+          is_married: values.is_married,
+          hasDependents: values.hasDependents,
+          dependents: values.dependents,
+          dependents_note: values.dependents_note,
+          job: values.job,
+          domisili: values.domisili,
+        }),
+      });
 
+      const result = await res.json();
       if (!res.ok) throw new Error(result.message);
 
       Swal.fire({
@@ -152,6 +212,9 @@ const FinancialCheckForm = ({
             onNext={handleNext}
             onBack={handleBack}
             onSubmit={form.handleSubmit(handleSubmit)}
+            isSubmitDisabled={
+              step === TOTAL_STEPS - 1 && !form.formState.isValid
+            }
           />
         )}
       </form>

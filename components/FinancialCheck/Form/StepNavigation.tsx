@@ -8,6 +8,7 @@ type StepNavigationProps = {
   onNext: () => void;
   onBack: () => void;
   onSubmit: () => void;
+  isSubmitDisabled?: boolean;
 };
 
 const StepNavigation: React.FC<StepNavigationProps> = ({
@@ -16,6 +17,7 @@ const StepNavigation: React.FC<StepNavigationProps> = ({
   onNext,
   onBack,
   onSubmit,
+  isSubmitDisabled = false,
 }) => {
   const isFirstStep = currentStep === 0;
   const isLastStep = currentStep === totalSteps - 1;
@@ -50,9 +52,14 @@ const StepNavigation: React.FC<StepNavigationProps> = ({
           <button
             type="button"
             onClick={onSubmit}
-            className="px-4 py-2 rounded-md font-medium transition bg-amber-600 text-white hover:bg-amber-700"
+            disabled={isSubmitDisabled}
+            className={`px-4 py-2 rounded text-white font-medium transition ${
+              isSubmitDisabled
+                ? "bg-gray-300 cursor-not-allowed"
+                : "bg-amber-600 hover:bg-amber-700"
+            }`}
           >
-            Submit
+            Cek Hasil
           </button>
         ) : (
           <button

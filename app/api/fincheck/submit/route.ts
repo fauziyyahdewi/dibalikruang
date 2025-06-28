@@ -10,7 +10,6 @@ export async function POST(req: NextRequest) {
     const session = await auth();
     const userId = session?.user?.id;
 
-    // Jika tidak ada userId, kembalikan error unauthorized
     if (!userId) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }

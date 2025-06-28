@@ -1,4 +1,4 @@
-import FinancialCheckWrapper from "@/components/FinancialCheck/FinancialCheckWrapper";
+import FinancialCheckWrapper from "@/components/FinancialCheck/Form/FinancialCheckWrapper";
 import React from "react";
 
 const FinancialCheckPage = () => {
