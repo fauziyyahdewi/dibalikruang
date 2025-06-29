@@ -124,8 +124,8 @@ export async function POST(req: NextRequest) {
           fincheck_result_category_id: item.categoryId,
           fincheck_result_type_id: item.conditionLevel,
           value: Math.round(item.amountInput), // Nilai indikator dibulatkan
-          description: item.description, // Deskripsi indikator
-          position_detail: item.position,
+          description: item.suggestion, // Deskripsi indikator
+          position_detail: item.positionDescription,
         })),
       });
     }

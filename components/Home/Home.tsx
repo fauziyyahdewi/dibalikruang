@@ -27,11 +27,18 @@ const Home = () => {
 
   return (
     <div className="overflow-hidden">
-      <Hero />
+      <div id="home">
+        <Hero />
+      </div>
+
       <Esential />
-      <FinancialAdvisor />
+      <div id="advisors">
+        <FinancialAdvisor />
+      </div>
       <Features />
-      <Review />
+      <div id="testimonial">
+        <Review />
+      </div>
       <Price />
       <Offer />
     </div>

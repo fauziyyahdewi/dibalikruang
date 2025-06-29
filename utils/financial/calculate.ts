@@ -188,6 +188,8 @@ export function calculateIndicators(data: Data): CalculateResult {
 
       // 4. Hutang terhadap Aset
       case "Hutang terhadap Aset":
+        if (hutang === 0)
+          return "Hindari utang konsumtif dan fokuskan langkah untuk membangun nilai aset secara bertahap.";
         if (value < 50)
           return "Terus jaga aset Anda tumbuh lebih cepat dari hutang.";
         return `Kurangi beban hutang Anda, maksimal ${formatValue(
@@ -196,6 +198,8 @@ export function calculateIndicators(data: Data): CalculateResult {
 
       // 5. Cicilan Hutang
       case "Cicilan Hutang":
+        if (pendapatan === 0 && hutang === 0)
+          return " Pastikan kamu memiliki sumber pendapatan yang stabil sebelum mengambil tanggungan keuangan.";
         if (value < 35)
           return "Pertahankan dan hindari tambahan utang konsumtif.";
         if (value <= 50)
@@ -210,6 +214,8 @@ export function calculateIndicators(data: Data): CalculateResult {
       case "Investasi":
         if (networth < 0)
           return "Kekayaan bersih Anda negatif. Tunda dulu investasi, dan fokuskan pada pelunasan utang serta membangun aset.";
+        if (networth === 0)
+          return "Fokuskan langkah untuk membangun nilai aset secara bertahap.";
         if (value > 50)
           return "Pertahankan dan sesuaikan dengan tujuan keuangan Anda.";
         if (value > 0 && investasi > 0)
@@ -265,8 +271,8 @@ export function calculateIndicators(data: Data): CalculateResult {
       percent: Math.round(percent),
       amountInput: amountInput,
       conditionLevel: level,
-      description: saran(name, percent, idealValue),
-      position: posisi(name, percent),
+      suggestion: saran(name, percent, idealValue),
+      positionDescription: posisi(name, percent),
     });
     score += isIdeal ? 1 : 0;
     totalKategori++;
@@ -318,7 +324,8 @@ export function calculateIndicators(data: Data): CalculateResult {
   );
 
   // 5. Cicilan Hutang
-  const persenCicilan = pendapatan > 0 ? (hutang / pendapatan) * 100 : 100;
+  const persenCicilan =
+    pendapatan > 0 ? (hutang / pendapatan) * 100 : hutang > 0 ? 100 : 0;
   const idealCicilan = pendapatan * 0.35;
   addResult(
     "Cicilan Hutang",
@@ -346,15 +353,27 @@ export function calculateIndicators(data: Data): CalculateResult {
   addResult(
     "Aset terhadap Hutang",
     persenAsetHutang,
-    aset,
+    networth,
     idealAsetHutang,
     isIdealAsetHutang
   );
 
   // 8. Cashflow
-  const percentCashflow = pendapatan > 0 ? (pengeluaran / pendapatan) * 100 : 0;
   const selisih = pendapatan - pengeluaran;
+  const toleransi = pendapatan * 0.1;
+
+  let percentCashflow: number;
+
+  if (Math.abs(selisih) <= toleransi) {
+    percentCashflow = 0; // seimbang
+  } else if (selisih > 0) {
+    percentCashflow = 1; // surplus
+  } else {
+    percentCashflow = -1; // defisit
+  }
+
   const idealSelisih = pendapatan * 0.5;
+
   addResult(
     "Cashflow",
     percentCashflow,
@@ -364,14 +383,14 @@ export function calculateIndicators(data: Data): CalculateResult {
   );
 
   // 9. Kekayaan Bersih
-  const percentKekayaan = networth > 0 ? Math.round(networth / pengeluaran) : 0;
+  const percentKekayaan = networth / pengeluaran;
   const idealKekayaan = pengeluaran * 36;
   addResult(
     "Kekayaan Bersih",
     percentKekayaan,
     networth,
     idealKekayaan,
-    networth >= pengeluaran * 36 // setara 3 tahun pengeluaran
+    networth > pengeluaran * 36 // setara 3 tahun pengeluaran
   );
 
   const percent =

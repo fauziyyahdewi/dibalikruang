@@ -3,21 +3,24 @@ import { PrismaAdapter } from "@auth/prisma-adapter";
 import CredentialsProvider from "next-auth/providers/credentials";
 import { prisma } from "@/lib/prisma";
 import { compareSync } from "bcrypt-ts";
+import Google from "next-auth/providers/google";
 
 export const { handlers, auth, signIn, signOut } = NextAuth({
   adapter: PrismaAdapter(prisma),
   providers: [
+    Google,
+
     CredentialsProvider({
       name: "credentials",
       credentials: {
         email: {},
         password: {},
       },
-      async authorize(credentials) {
+      authorize: async (credentials) => {
         const email = credentials?.email as string;
         const password = credentials?.password as string;
 
-        const user = await prisma.users.findUnique({
+        const user = await prisma.User.findUnique({
           where: { email },
         });
 
@@ -41,7 +44,13 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
     authorized({ auth, request: { nextUrl } }) {
       const isLoggedIn = !!auth?.user;
 
-      const ProtectedRoutes = ["/financial-advisor", "/financial-check"];
+      const ProtectedRoutes = [
+        "/financial-advisor",
+        "/financial-advisor/clients",
+        "/financial-advisor/financial-check",
+        "/financial-advisor/services",
+        "/financial-check",
+      ];
 
       if (!isLoggedIn && ProtectedRoutes.includes(nextUrl.pathname)) {
         return Response.redirect(new URL("/login", nextUrl));
@@ -59,13 +68,15 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
       if (user) token.role = user.role;
       return token;
     },
-    session({ session, token }) {
+    session({ session, token }: { session: any; token: any }) {
       session.user.id = token.sub;
       session.user.role = token.role;
       return session;
     },
+    
   },
   pages: {
     signIn: "/login",
   },
+  
 });

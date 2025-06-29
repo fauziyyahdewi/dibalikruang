@@ -5,7 +5,11 @@ import { CalendarIcon } from "lucide-react";
 import { format } from "date-fns";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
-import { Popover, PopoverTrigger, PopoverContent } from "@/components/ui/popover";
+import {
+  Popover,
+  PopoverTrigger,
+  PopoverContent,
+} from "@/components/ui/popover";
 import { Calendar } from "@/components/ui/calendar";
 import { Label } from "@/components/ui/label";
 import { useState } from "react";
@@ -17,7 +21,9 @@ export const ClientBirthdayField = () => {
 
   return (
     <div className="space-y-1 w-full md:w-1/2">
-      <Label htmlFor="birthday">Tanggal Lahir<span className="text-red-600">*</span></Label>
+      <Label htmlFor="birthday">
+        Tanggal Lahir<span className="text-red-600">*</span>
+      </Label>
 
       <Popover open={open} onOpenChange={setOpen}>
         <PopoverTrigger asChild>
@@ -38,7 +44,8 @@ export const ClientBirthdayField = () => {
             selected={date ? new Date(date) : undefined}
             onSelect={(selectedDate) => {
               if (selectedDate) {
-                setValue("birthday", selectedDate.toISOString().split("T")[0]);
+                setValue("birthday", format(selectedDate, "yyyy-MM-dd"));
+
                 setOpen(false);
               }
             }}

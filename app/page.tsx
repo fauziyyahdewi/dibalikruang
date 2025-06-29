@@ -8,7 +8,9 @@ const HomePage = () => {
     <div>
       <ResponsiveNav />
       <Home />
-      <Footer />
+      <div id="contact">
+        <Footer />
+      </div>
     </div>
   );
 };

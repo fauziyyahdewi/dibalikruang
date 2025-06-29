@@ -85,19 +85,19 @@ function LastStep() {
           </div>
 
           <div className="space-y-1">
-            <Label htmlFor="phone">Nomor Telepon<span className="text-red-600">*</span></Label>
+            <Label htmlFor="phone_number">Nomor Telepon<span className="text-red-600">*</span></Label>
             <Input
-              {...register("phone", {
+              {...register("phone_number", {
                 required: "Nomor telepon wajib diisi",
               })}
-              id="phone"
+              id="phone_number"
               type="tel"
               placeholder="08xxxxxxxxxx"
               className="border-0 border-b border-gray-300 rounded-none focus-visible:ring-0 focus-visible:border-b-1 focus-visible:border-amber-500"
             />
-            {errors.phone && (
+            {errors.phone_number && (
               <p className="text-sm text-red-600">
-                {errors.phone.message as string}
+                {errors.phone_number.message as string}
               </p>
             )}
           </div>

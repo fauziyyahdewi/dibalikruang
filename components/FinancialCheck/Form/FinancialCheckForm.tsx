@@ -72,7 +72,7 @@ const FinancialCheckForm = ({
   useEffect(() => {
     const fetchClientData = async () => {
       try {
-        const res = await fetch("/api/clients/me");
+        const res = await fetch("/api/user/me");
 
         if (!res.ok) throw new Error("Gagal memuat data klien");
 
@@ -84,9 +84,9 @@ const FinancialCheckForm = ({
           ...form.getValues(), // pertahankan input user
           name: client.name || "",
           email: client.email || "",
-          phone: client.phone || "",
+          phone_number: client.phone_number || "",
           birthday: client.birthday || "",
-          married: client.married ?? false,
+          is_married: client.is_married ?? false,
           hasDependents: !!client.dependents,
           dependents: client.dependents || 0,
           dependents_note: client.dependents_note || "",
@@ -153,13 +153,13 @@ const FinancialCheckForm = ({
         }),
       });
 
-      await fetch("/api/clients/me", {
+      await fetch("/api/user/me/update", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           name: values.name,
           email: values.email,
-          phone: values.phone,
+          phone_number: values.phone_number,
           birthday: values.birthday,
           is_married: values.is_married,
           hasDependents: values.hasDependents,

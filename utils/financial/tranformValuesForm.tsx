@@ -1,11 +1,5 @@
+import { FinanceDetail } from "@/types/fincheck-client";
 import { FormValues } from "@/types/form-values";
-
-type FinanceDetail = {
-  name: string;
-  amount: number;
-  finance_category_id: number;
-  finance_type_id: number | null;
-};
 
 export function transformFormValues(values: FormValues) {
   //   const parseAmount = (value: string) => Number(value) || 0;

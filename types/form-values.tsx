@@ -10,7 +10,7 @@ export type FormValues = {
   // 🧍 Data Klien (untuk step terakhir)
   name?: string;
   email?: string;
-  phone?: string;
+  phone_number?: string;
   birthday?: string; // format: "yyyy-MM-dd"
   job?: string;
   jobSelect?: string;
@@ -21,7 +21,6 @@ export type FormValues = {
   dependents?: number;
   domisili?: string;
 };
-
 
 export type FormDataRegist = {
   name: string;

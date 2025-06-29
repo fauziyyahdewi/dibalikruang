@@ -81,10 +81,28 @@ const Nav = ({ openNav }: Props) => {
         {/* MENU */}
         <div className="hidden lg:flex items-center space-x-10">
           {navLinks.map((link) => (
-            <Link key={link.id} href={link.url}>
-              <p className="nav__link">{link.label}</p>
-            </Link>
+            <button
+              key={link.id}
+              onClick={() => {
+                if (link.url === "/") {
+                  window.location.href = "/";
+                } else {
+                  const isHome = window.location.pathname === "/";
+                  if (isHome) {
+                    document
+                      .querySelector(link.url)
+                      ?.scrollIntoView({ behavior: "smooth" });
+                  } else {
+                    window.location.href = `/${link.url}`;
+                  }
+                }
+              }}
+              className="nav__link"
+            >
+              {link.label}
+            </button>
           ))}
+
           {status === "loading" ? (
             <Skeleton className="w-10 h-10 rounded-full" />
           ) : status === "authenticated" ? (

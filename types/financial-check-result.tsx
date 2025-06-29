@@ -29,8 +29,8 @@ export type IndicatorDetail = {
   percent: number;
   amountInput: number;
   conditionLevel: number;
-  position: string;
-  description: string;
+  positionDescription: string;
+  suggestion: string;
 };
 
 export type CalculateResult = {
@@ -42,3 +42,17 @@ export type CalculateResult = {
   details: IndicatorDetail[];
   rawInput?: FormValues;
 };
+
+export type FincheckResult = {
+  id: number;
+  percentage: number;
+  status: string;
+  createdAt: string;
+  advisorName?: string;
+  advisorEmail?: string;
+  clientFinanceId?: number;
+  summary?: any[];
+  detail?: any[];
+  resultType?: string;
+};
+
