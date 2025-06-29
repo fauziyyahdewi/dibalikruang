@@ -159,7 +159,7 @@ const Nav = ({ openNav }: Props) => {
                   forceMount
                 >
                   <DropdownMenuItem className="font-normal">
-                    <Link href={"/profile"}>
+                    <Link href={""}>
                       <div className="flex flex-col space-y-1">
                         <p className="text-sm font-medium leading-none">
                           {session?.user?.name}

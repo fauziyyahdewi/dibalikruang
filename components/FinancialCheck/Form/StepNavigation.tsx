@@ -9,6 +9,7 @@ type StepNavigationProps = {
   onBack: () => void;
   onSubmit: () => void;
   isSubmitDisabled?: boolean;
+  is_loading?: boolean;
 };
 
 const StepNavigation: React.FC<StepNavigationProps> = ({
@@ -18,6 +19,7 @@ const StepNavigation: React.FC<StepNavigationProps> = ({
   onBack,
   onSubmit,
   isSubmitDisabled = false,
+  is_loading = false,
 }) => {
   const isFirstStep = currentStep === 0;
   const isLastStep = currentStep === totalSteps - 1;
@@ -52,14 +54,40 @@ const StepNavigation: React.FC<StepNavigationProps> = ({
           <button
             type="button"
             onClick={onSubmit}
-            disabled={isSubmitDisabled}
-            className={`px-4 py-2 rounded text-white font-medium transition ${
-              isSubmitDisabled
+            disabled={isSubmitDisabled || is_loading}
+            className={`px-4 py-2 rounded text-white font-medium transition inline-flex items-center justify-center gap-2 ${
+              isSubmitDisabled || is_loading
                 ? "bg-gray-300 cursor-not-allowed"
                 : "bg-amber-600 hover:bg-amber-700"
             }`}
           >
-            Cek Hasil
+            {is_loading ? (
+              <>
+                <svg
+                  className="animate-spin h-5 w-5 text-white"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                >
+                  <circle
+                    className="opacity-25"
+                    cx="12"
+                    cy="12"
+                    r="10"
+                    stroke="currentColor"
+                    strokeWidth="4"
+                  ></circle>
+                  <path
+                    className="opacity-75"
+                    fill="currentColor"
+                    d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"
+                  ></path>
+                </svg>
+                {/* <span>Memproses...</span> */}
+              </>
+            ) : (
+              "Cek Hasil"
+            )}
           </button>
         ) : (
           <button

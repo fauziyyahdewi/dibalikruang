@@ -116,13 +116,17 @@ export async function POST(req: NextRequest) {
       });
     }
 
+    
+
     // 5. Menyimpan detail indikator fincheck ke tabel fincheck_result_detail
     if (calculated.details?.length) {
+      
       await prisma.fincheck_result_detail.createMany({
         data: calculated.details.map((item: any) => ({
           fincheck_result_id: fincheckResult.id,
           fincheck_result_category_id: item.categoryId,
           fincheck_result_type_id: item.conditionLevel,
+          position: item.percent.toString(),
           value: Math.round(item.amountInput), // Nilai indikator dibulatkan
           description: item.suggestion, // Deskripsi indikator
           position_detail: item.positionDescription,

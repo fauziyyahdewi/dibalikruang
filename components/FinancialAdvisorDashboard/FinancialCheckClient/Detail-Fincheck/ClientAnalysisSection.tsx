@@ -6,7 +6,7 @@ import { cn } from "@/lib/utils";
 
 type ResultDetail = {
   value: number;
-  percent?: number;
+  position?: string;
   description: string;
   position_detail?: string;
   fincheck_result_type?: { name?: string };
@@ -39,6 +39,7 @@ export function CategoryAnalysisSection({
   data,
 }: CategoryAnalysisSectionProps) {
   const details = data.fincheck_result_detail || [];
+  console.log("DATA DETAIL:", details);
 
   const orderedDetails = [
     ...details.filter((item) => item.fincheck_result_type?.name !== "Ideal"),
@@ -99,7 +100,7 @@ export function CategoryAnalysisSection({
                     <p>
                       <span className="font-medium text-gray-600">Nilai:</span>{" "}
                       <span className="font-semibold text-gray-900">
-                        {getDisplayValue(category, item.value)}
+                        {item.position}
                       </span>
                     </p>
 

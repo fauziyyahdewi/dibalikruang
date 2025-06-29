@@ -299,7 +299,7 @@ export default function FincheckPdf({ data }: Props) {
                         Nilai:{" "}
                         {getDisplayValue(
                           item.fincheck_result_category?.name,
-                          item.value
+                          item.position
                         )}
                       </Text>
                       <Text style={styles.smallText}>

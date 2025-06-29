@@ -26,7 +26,7 @@ export async function signUpCredentials(data: FormDataRegist) {
 
   try {
     // Cek apakah email sudah terdaftar
-    const existingUser = await prisma.users.findUnique({ where: { email } });
+    const existingUser = await prisma.user.findUnique({ where: { email } });
     if (existingUser) {
       return {
         error: {
@@ -37,7 +37,7 @@ export async function signUpCredentials(data: FormDataRegist) {
 
     // Simpan user baru
     const hashedPassword = hashSync(password, 10);
-    await prisma.users.create({
+    await prisma.user.create({
       data: {
         name,
         email,

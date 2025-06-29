@@ -40,6 +40,7 @@ const FinancialCheckForm = ({
   clientFinanceId,
   fincheckId,
 }: FinancialCheckFormProps) => {
+  const [loading, setLoading] = useState(false);
   const form = useForm<FormValues>({
     mode: "onChange",
     criteriaMode: "all",
@@ -135,6 +136,7 @@ const FinancialCheckForm = ({
   };
 
   const handleSubmit = async (values: FormValues) => {
+    setLoading(true);
     try {
       const { summary, details, dataForCalculation } =
         transformFormValues(values);
@@ -192,6 +194,8 @@ const FinancialCheckForm = ({
         title: "Gagal",
         text: "Terjadi kesalahan",
       });
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -215,6 +219,7 @@ const FinancialCheckForm = ({
             isSubmitDisabled={
               step === TOTAL_STEPS - 1 && !form.formState.isValid
             }
+            is_loading={loading}
           />
         )}
       </form>

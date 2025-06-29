@@ -132,6 +132,7 @@ model fincheck_result_detail {
   fincheck_result_category_id Int?
   fincheck_result_type_id     Int?
   value                       Int
+  position                    String?                   @db.VarChar(255) // Nilai dari kategori
   position_detail             String?                   @db.VarChar(255)
   description                 String                    @db.VarChar(255)
   created_at                  DateTime?                 @default(now()) @db.Timestamp(6)
