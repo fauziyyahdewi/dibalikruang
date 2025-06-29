@@ -43,7 +43,7 @@ const SignUpForm = () => {
       Swal.fire({
         icon: "error",
         title: "Oops...",
-        text: "Gagal mendaftar",
+        text: `${result.error}`,
       });
     } else {
       router.push("/login");
