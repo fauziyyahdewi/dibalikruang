@@ -58,9 +58,7 @@ const FinancialCheckResultDetails = ({
         <div className="flex justify-between items-center mb-3 border-b pb-2">
           <div className="flex items-start gap-3">
             <div className="bg-white/70 rounded-full p-3 border border-gray-200">
-              {React.cloneElement(icon, {
-                className: "w-5 h-5",
-              })}
+              {icon}
             </div>
             <div className="flex flex-col">
               <span className="font-semibold text-base">{item.category}</span>
@@ -123,7 +121,7 @@ const FinancialCheckResultDetails = ({
             <IndicatorCard
               key={item.category}
               item={item}
-              icon={<AlertTriangle className="w-4 h-4" />}
+              icon={<AlertTriangle className="w-5 h-5" />}
               bgColor="bg-[#fff3f3]"
               textColor="text-red-700"
               borderColor="border-red-500"
@@ -142,7 +140,7 @@ const FinancialCheckResultDetails = ({
             <IndicatorCard
               key={item.category}
               item={item}
-              icon={<CheckCircle className="w-4 h-4" />}
+              icon={<CheckCircle className="w-5 h-5" />}
               bgColor="bg-[#f0fdf4]"
               textColor="text-green-700"
               borderColor="border-green-500"
