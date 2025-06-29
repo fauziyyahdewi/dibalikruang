@@ -40,11 +40,19 @@ const SignUpForm = () => {
           message: value as string,
         });
       });
-      Swal.fire({
-        icon: "error",
-        title: "Oops...",
-        text: `${result.error}`,
-      });
+      if (result.error.email) {
+        Swal.fire({
+          icon: "error",
+          title: "Oops...",
+          text: `${result.error.email}`,
+        });
+      } else {
+        Swal.fire({
+          icon: "error",
+          title: "Oops...",
+          text: `${result.error.general}`,
+        });
+      }
     } else {
       router.push("/login");
       Swal.fire({
@@ -54,7 +62,7 @@ const SignUpForm = () => {
       });
     }
   };
-  
+
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
       <div className="space-y-1">
