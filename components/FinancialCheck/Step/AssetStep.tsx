@@ -23,7 +23,7 @@ function AssetStep({ form }: { form: UseFormReturn<FormValues> }) {
   const handleAddRecommendation = (name: string) => {
     const alreadyExists = fields.some((field) => field.name === name);
     if (!alreadyExists) {
-      append({ name, amount: "", type: "aset" });
+      append({ name, amount: 0, type: "aset" });
     }
     setShowCustomInput(false);
     setCustomName("");
@@ -31,7 +31,7 @@ function AssetStep({ form }: { form: UseFormReturn<FormValues> }) {
 
   const handleAddCustom = () => {
     if (customName.trim()) {
-      append({ name: customName.trim(), amount: "", type: "aset" });
+      append({ name: customName.trim(), amount: 0, type: "aset" });
       setCustomName("");
       setShowCustomInput(false);
     }
@@ -66,11 +66,14 @@ function AssetStep({ form }: { form: UseFormReturn<FormValues> }) {
                 type="text"
                 inputMode="numeric"
                 value={formatNumber(
-                  form.watch(`assetsSources.${index}.amount`) || ""
+                  `${form.watch(`assetsSources.${index}.amount`)}` || ""
                 )}
                 onChange={(e) => {
                   const numericValue = e.target.value.replace(/\D/g, "");
-                  form.setValue(`assetsSources.${index}.amount`, numericValue);
+                  form.setValue(
+                    `assetsSources.${index}.amount`,
+                    Number(numericValue)
+                  );
                 }}
                 placeholder="0"
                 className="flex-1 py-2 outline-none border-b-1 border-gray-400 focus:ring-0"
