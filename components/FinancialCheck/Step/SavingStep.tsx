@@ -31,11 +31,11 @@ function SavingStep({ form }: { form: UseFormReturn<FormValues> }) {
               type="text"
               inputMode="numeric"
               value={formatNumber(
-                watch(`savingsSources.${index}.amount`) || ""
+                `${watch(`savingsSources.${index}.amount`)}` || ""
               )}
               onChange={(e) => {
                 const numericValue = e.target.value.replace(/\D/g, "");
-                setValue(`savingsSources.${index}.amount`, numericValue);
+                setValue(`savingsSources.${index}.amount`, Number(numericValue));
               }}
               placeholder="0"
               className="flex-1 py-2 outline-none border-b-1 border-gray-400 focus:ring-0"

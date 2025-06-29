@@ -27,7 +27,7 @@ function InvestmentStep({ form }: { form: UseFormReturn<FormValues> }) {
   const handleAddRecommendation = (name: string) => {
     const alreadyExists = fields.some((field) => field.name === name);
     if (!alreadyExists) {
-      append({ name, amount: "", type: "investasi" });
+      append({ name, amount: 0, type: "investasi" });
     }
     setShowCustomInput(false);
     setCustomName("");
@@ -35,7 +35,7 @@ function InvestmentStep({ form }: { form: UseFormReturn<FormValues> }) {
 
   const handleAddCustom = () => {
     if (customName.trim()) {
-      append({ name: customName.trim(), amount: "", type: "investasi" });
+      append({ name: customName.trim(), amount: 0, type: "investasi" });
       setCustomName("");
       setShowCustomInput(false);
     }
@@ -75,13 +75,13 @@ function InvestmentStep({ form }: { form: UseFormReturn<FormValues> }) {
                 type="text"
                 inputMode="numeric"
                 value={formatNumber(
-                  form.watch(`investmentSources.${index}.amount`) || ""
+                  `${form.watch(`investmentSources.${index}.amount`)}` || ""
                 )}
                 onChange={(e) => {
                   const numericValue = e.target.value.replace(/\D/g, "");
                   form.setValue(
                     `investmentSources.${index}.amount`,
-                    numericValue
+                    Number(numericValue)
                   );
                 }}
                 placeholder="0"

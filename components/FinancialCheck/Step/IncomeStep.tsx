@@ -28,7 +28,7 @@ function IncomeStep({ form }: { form: UseFormReturn<FormValues> }) {
   const handleAddRecommendation = (name: string) => {
     const alreadyExists = fields.some((field) => field.name === name);
     if (!alreadyExists) {
-      append({ name, amount: "", type: "pemasukan" });
+      append({ name, amount: 0, type: "pemasukan" });
     }
     setShowCustomInput(false);
     setCustomName("");
@@ -36,7 +36,7 @@ function IncomeStep({ form }: { form: UseFormReturn<FormValues> }) {
 
   const handleAddCustom = () => {
     if (customName.trim()) {
-      append({ name: customName.trim(), amount: "", type: "pemasukan" });
+      append({ name: customName.trim(), amount: 0, type: "pemasukan" });
       setCustomName("");
       setShowCustomInput(false);
     }
@@ -76,11 +76,11 @@ function IncomeStep({ form }: { form: UseFormReturn<FormValues> }) {
                 type="text"
                 inputMode="numeric"
                 value={formatNumber(
-                  form.watch(`incomesSources.${index}.amount`) || ""
+                  `${form.watch(`incomesSources.${index}.amount`)}` || ""
                 )}
                 onChange={(e) => {
                   const numericValue = e.target.value.replace(/\D/g, ""); // hanya angka
-                  form.setValue(`incomesSources.${index}.amount`, numericValue);
+                  form.setValue(`incomesSources.${index}.amount`, Number(numericValue));
                 }}
                 placeholder="0"
                 className="flex-1 py-2 outline-none border-b-1 border-gray-400 focus:ring-0"

@@ -27,7 +27,7 @@ function DebtStep({ form }: { form: UseFormReturn<FormValues> }) {
   const handleAddRecommendation = (name: string) => {
     const alreadyExists = fields.some((field) => field.name === name);
     if (!alreadyExists) {
-      append({ name, amount: "", type: "hutang" });
+      append({ name, amount: 0, type: "hutang" });
     }
     setShowCustomInput(false);
     setCustomName("");
@@ -35,7 +35,7 @@ function DebtStep({ form }: { form: UseFormReturn<FormValues> }) {
 
   const handleAddCustom = () => {
     if (customName.trim()) {
-      append({ name: customName.trim(), amount: "", type: "hutang" });
+      append({ name: customName.trim(), amount: 0, type: "hutang" });
       setCustomName("");
       setShowCustomInput(false);
     }
@@ -70,11 +70,11 @@ function DebtStep({ form }: { form: UseFormReturn<FormValues> }) {
                 type="text"
                 inputMode="numeric"
                 value={formatNumber(
-                  form.watch(`debtsSources.${index}.amount`) || ""
+                  `${form.watch(`debtsSources.${index}.amount`)}` || ""
                 )}
                 onChange={(e) => {
                   const numericValue = e.target.value.replace(/\D/g, "");
-                  form.setValue(`debtsSources.${index}.amount`, numericValue);
+                  form.setValue(`debtsSources.${index}.amount`, Number(numericValue));
                 }}
                 placeholder="0"
                 className="flex-1 py-2 outline-none border-b-1 border-gray-400 focus:ring-0"

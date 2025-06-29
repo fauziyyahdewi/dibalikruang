@@ -27,7 +27,7 @@ function ExpenseStep({ form }: { form: UseFormReturn<FormValues> }) {
   const handleAddRecommendation = (name: string) => {
     const alreadyExists = fields.some((field) => field.name === name);
     if (!alreadyExists) {
-      append({ name, amount: "", type: "pengeluaran" });
+      append({ name, amount: 0, type: "pengeluaran" });
     }
     setShowCustomInput(false);
     setCustomName("");
@@ -35,7 +35,7 @@ function ExpenseStep({ form }: { form: UseFormReturn<FormValues> }) {
 
   const handleAddCustom = () => {
     if (customName.trim()) {
-      append({ name: customName.trim(), amount: "", type: "pengeluaran" });
+      append({ name: customName.trim(), amount: 0, type: "pengeluaran" });
       setCustomName("");
       setShowCustomInput(false);
     }
@@ -75,13 +75,13 @@ function ExpenseStep({ form }: { form: UseFormReturn<FormValues> }) {
                 type="text"
                 inputMode="numeric"
                 value={formatNumber(
-                  form.watch(`expensesSources.${index}.amount`) || ""
+                  `${form.watch(`expensesSources.${index}.amount`)}` || ""
                 )}
                 onChange={(e) => {
                   const numericValue = e.target.value.replace(/\D/g, "");
                   form.setValue(
                     `expensesSources.${index}.amount`,
-                    numericValue
+                    Number(numericValue)
                   );
                 }}
                 placeholder="0"
