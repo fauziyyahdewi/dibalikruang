@@ -28,7 +28,8 @@
     "**/*.ts",
     "**/*.tsx",
     ".next/types/**/*.ts",
-    "app/(routes)/(FA)/financial-advisor"
+    "app/(routes)/(FA)/financial-advisor",
+    "types"
   ],
   "exclude": ["node_modules"]
 }
