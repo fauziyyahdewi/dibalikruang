@@ -140,7 +140,7 @@ function IncomeStep({ form }: { form: UseFormReturn<FormValues> }) {
                 placeholder="Contoh: Komisi, Royalti, dll."
               />
 
-              <div className="grid grid-cols-2 gap-2 md:flex md:flex-row md:gap-2 w-full md:w-auto">
+              <div className="grid grid-cols-2 gap-2 lg:flex lg:flex-row lg:gap-2 w-full md:w-auto">
                 <Button
                   type="button"
                   onClick={handleAddCustom}
