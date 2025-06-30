@@ -40,7 +40,7 @@ const MobileNav = ({ closeNav, showNav }: Props) => {
     });
 
     if (result.isConfirmed) {
-      signOut();
+      signOut({ callbackUrl: "/", redirect: true });
     }
   };
 
@@ -114,7 +114,7 @@ const MobileNav = ({ closeNav, showNav }: Props) => {
         </div>
 
         {/* Footer */}
-        <div className="mt-auto p-6 border-t border-white/20 flex flex-col gap-4">
+        <div className="mt-auto border-t border-white/20 flex flex-col gap-4">
           {/* User Info + Logout */}
           {status === "authenticated" && (
             <div className="flex flex-col space-y-3">
@@ -123,7 +123,7 @@ const MobileNav = ({ closeNav, showNav }: Props) => {
                 <Link href="/financial-advisor">
                   <button
                     type="button"
-                    className="flex ml-5 items-center gap-4 font-semibold text-sm"
+                    className="flex p-6 ml-5 items-center gap-4 font-semibold text-sm"
                   >
                     <ChartArea className="h-5 w-5" />
                     <span>Dashboard</span>
@@ -133,14 +133,16 @@ const MobileNav = ({ closeNav, showNav }: Props) => {
               <button
                 type="button"
                 onClick={handleLogout}
-                className="flex ml-5 items-center gap-4 text-red-500 font-semibold text-sm"
+                className="flex px-10 py-8  items-center gap-4 text-red-500 font-semibold text-sm"
               >
                 <LogOut className="w-5 h-5" />
                 Keluar
               </button>
 
+              <div className="border-b-1 border-black/20 w-full p-y-2"></div>
+
               {/* User Info */}
-              <div className="relative h-8 rounded-full border-t-1 border-black/20 px-2 flex items-center space-x-2">
+              <div className="relative px-10 py-8  h-8 rounded-full border-black/20 flex items-center space-x-2">
                 <Avatar className="h-10 w-10 border-2 rounded-full">
                   <AvatarImage
                     src="/images/profile-anonim.png"

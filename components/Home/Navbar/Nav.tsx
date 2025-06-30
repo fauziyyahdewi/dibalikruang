@@ -51,7 +51,7 @@ const Nav = ({ openNav }: Props) => {
     });
 
     if (result.isConfirmed) {
-      signOut();
+      signOut({ callbackUrl: "/", redirect: true });
     }
   };
 
