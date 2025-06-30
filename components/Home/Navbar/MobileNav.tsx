@@ -142,7 +142,7 @@ const MobileNav = ({ closeNav, showNav }: Props) => {
               <div className="border-b-1 border-black/20 w-full p-y-2"></div>
 
               {/* User Info */}
-              <div className="relative px-10 py-8  h-8 rounded-full border-black/20 flex items-center space-x-2">
+              <div className="relative px-10 py-8 h-8 rounded-full border-black/20 flex items-center space-x-2">
                 <Avatar className="h-10 w-10 border-2 rounded-full">
                   <AvatarImage
                     src="/images/profile-anonim.png"

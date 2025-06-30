@@ -71,20 +71,11 @@ const LoginForm = () => {
   const onSubmit = async (data: FormDataLogin) => {
     const result = await loginCredentials(data);
 
-    if (result?.error) {
+    if (result?.error || result?.message) {
       Swal.fire({
         icon: "error",
         title: "Oops...",
-        text: "Email atau password salah",
-      });
-      return;
-    } 
-    
-    if (result?.message) {
-      Swal.fire({
-        icon: "error",
-        title: "Oops...",
-        text: `${result.message}`,
+        text: `${result.error}` || `${result.message}` || "Email atau password salah",
       });
       return;
     }

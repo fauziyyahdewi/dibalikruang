@@ -5,7 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import { HiBars3BottomRight } from "react-icons/hi2";
-import { signOut, useSession } from "next-auth/react";
+import { getSession, signOut, useSession } from "next-auth/react";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -19,12 +19,14 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import Swal from "sweetalert2";
+import { useRouter } from "next/navigation";
 
 type Props = {
   openNav: () => void;
 };
 
 const Nav = ({ openNav }: Props) => {
+  const router = useRouter();
   const [navBg, setNavBg] = useState(false);
   const { data: session, status } = useSession();
   console.log("SESSION STATUS:", status, session);
@@ -51,7 +53,29 @@ const Nav = ({ openNav }: Props) => {
     });
 
     if (result.isConfirmed) {
-      signOut({ callbackUrl: "/", redirect: true });
+      await signOut({ redirect: false });
+
+      Swal.fire({
+        title: "Tunggu Sebentar...",
+        allowOutsideClick: false,
+        didOpen: () => Swal.showLoading(),
+      });
+
+      const interval = setInterval(async () => {
+        const res = await fetch("/api/auth/session");
+        const session = await res.json();
+        if (!session?.user) {
+          clearInterval(interval);
+          Swal.close();
+          router.push("/");
+        }
+      }, 500);
+
+      setTimeout(() => {
+        clearInterval(interval);
+        Swal.close();
+        router.push("/");
+      }, 5000);
     }
   };
 
