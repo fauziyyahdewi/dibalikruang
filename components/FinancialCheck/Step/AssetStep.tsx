@@ -119,31 +119,36 @@ function AssetStep({ form }: { form: UseFormReturn<FormValues> }) {
             <label className="block text-sm text-gray-600 mb-2">
               Masukkan jenis aset lainnya:
             </label>
-            <div className="flex gap-2">
+            <div className="flex flex-col md:flex-row gap-2">
               <Input
                 type="text"
                 value={customName}
                 onChange={(e) => setCustomName(e.target.value)}
-                className="flex-1"
-                placeholder="Contoh: Saham, Tanah, dll."
+                className="w-full md:flex-1"
+                placeholder="Contoh: Komisi, Royalti, dll."
               />
-              <Button
-                type="button"
-                onClick={handleAddCustom}
-                disabled={!customName.trim()}
-              >
-                Tambah
-              </Button>
-              <Button
-                type="button"
-                variant="outline"
-                onClick={() => {
-                  setShowCustomInput(false);
-                  setCustomName("");
-                }}
-              >
-                Batal
-              </Button>
+
+              <div className="grid grid-cols-2 gap-2 md:flex md:flex-row md:gap-2 w-full md:w-auto">
+                <Button
+                  type="button"
+                  onClick={handleAddCustom}
+                  disabled={!customName.trim()}
+                  className="w-full md:w-auto"
+                >
+                  Tambah
+                </Button>
+                <Button
+                  type="button"
+                  variant="outline"
+                  onClick={() => {
+                    setShowCustomInput(false);
+                    setCustomName("");
+                  }}
+                  className="w-full md:w-auto"
+                >
+                  Batal
+                </Button>
+              </div>
             </div>
           </div>
         )}
