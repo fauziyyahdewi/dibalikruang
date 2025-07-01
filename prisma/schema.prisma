@@ -6,7 +6,7 @@ generator client {
 
 datasource db {
   provider = "postgresql"
-  url      = "postgres://f604bbce64f12f828cfeb4192fd944fe33c383f8d218f292a923cc9679a115b8:sk_bH7x-TAYc--vZV6ur0kp1@db.prisma.io:5432/?sslmode=require
+  url      = "postgres://f604bbce64f12f828cfeb4192fd944fe33c383f8d218f292a923cc9679a115b8:sk_bH7x-TAYc--vZV6ur0kp1@db.prisma.io:5432/?sslmode=require"
 }
 
 model cache {
