@@ -126,7 +126,7 @@ export async function POST(req: NextRequest) {
           fincheck_result_id: fincheckResult.id,
           fincheck_result_category_id: item.categoryId,
           fincheck_result_type_id: item.conditionLevel,
-          position: item.percent.toString(),
+          position: item.percent?.toString(),
           value: Math.round(item.amountInput), // Nilai indikator dibulatkan
           description: item.suggestion, // Deskripsi indikator
           position_detail: item.positionDescription,
