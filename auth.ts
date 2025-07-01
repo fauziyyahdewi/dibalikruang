@@ -7,7 +7,8 @@ import Google from "next-auth/providers/google";
 
 export const { handlers, auth, signIn, signOut } = NextAuth({
   adapter: PrismaAdapter(prisma),
-  secret: process.env.AUTH_SECRET,
+  // Hardcoded secret
+  secret: "my_super_secret_key_123456",
   providers: [
     Google,
 

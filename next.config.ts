@@ -1,4 +1,5 @@
 import type { NextConfig } from "next";
+const { PrismaPlugin } = require('@prisma/nextjs-monorepo-workaround-plugin')
 
 const nextConfig: NextConfig = {
   /* config options here */
@@ -9,6 +10,18 @@ const nextConfig: NextConfig = {
         hostname: "lh3.googleusercontent.com",
       },
     ],
+  },
+  experimental: {
+    optimizePackageImports: [
+      '@prisma/client',
+    ],
+  },
+  webpack: (config, { isServer }) => {
+    if (isServer) {
+      config.plugins = [...config.plugins, new PrismaPlugin()]
+    }
+
+    return config
   },
 };
 
