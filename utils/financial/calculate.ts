@@ -383,7 +383,13 @@ export function calculateIndicators(data: Data): CalculateResult {
   );
 
   // 9. Kekayaan Bersih
-  const percentKekayaan = networth / pengeluaran;
+  const percentKekayaan =
+    pengeluaran === 0 && networth === 0
+      ? 0
+      : pengeluaran > 0
+      ? networth / pengeluaran
+      : 0;
+
   const idealKekayaan = pengeluaran * 36;
   addResult(
     "Kekayaan Bersih",
